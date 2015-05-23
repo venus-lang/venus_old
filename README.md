@@ -7,6 +7,19 @@ The Venus Programming Language is a C/C++ family language that aims to provide:
 - Memory safety: RAII and RefCount by default, with occasional GC if you want.
 - Incremental & Interactive compilation.
 
+It is at a very preliminary design state. 
+You can see the language design in the [design docs](docs/index.md)
+
+# Hello world
+
+```venus
+import std.io;
+
+void main() {
+	println("Hello");
+}
+```
+
 # Environment
 
 My goals for the environment include:
