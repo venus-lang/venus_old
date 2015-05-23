@@ -12,7 +12,7 @@ You can see the language design in the [design docs](docs/index.md)
 
 # Hello world
 
-```venus
+```D
 import std.io;
 
 void main() {
