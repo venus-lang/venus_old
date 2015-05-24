@@ -89,43 +89,43 @@ main() {
 ## [Chapter 1: Tutorial](book/ch01/index.md)
 
 
-# Work Plan
+# Road Map
 
-## V0.1
+### V0.1
 
 - procedure programing
 - C integration
 - C standard lib integration
 
-## V0.2
+### V0.2
 - functional programming
 - thread/fiber/coroutine
 - array/dict lib
 
-## V0.3
+### V0.3
 - class
 - repl
 
-## V0.4
+### V0.4
 - ctfe
 - shell
 
-## V0.5
+### V0.5
 - macro
 - other static features
 
-## V0.6
+### V0.6
 - stdlib
 
-## V0.7
+### V0.7
 - builder
 - text editor
 
-## V0.8
+### V0.8
 - GUI
 
-## V0.9
+### V0.9
 - IDE
 
-## V1.0
+### V1.0
 - cross platform
