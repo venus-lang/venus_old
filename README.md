@@ -36,6 +36,7 @@ Before writing any code, I have to finish three tasks:
 
 1. [ ] Write the first draft of design docs
 2. [ ] Learn llvm
+3. [ ] Learn about D's implementation
 
 # Lanuage Design
 

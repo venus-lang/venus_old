@@ -3,10 +3,10 @@
 # Code
 
 ```d
-import std.io;
+import std.io
 
 main() {
-	println("Hello World!");
+	println("Hello World!")
 }
 ```
 
@@ -61,5 +61,5 @@ main() {
 `println(...)` is similar to this code in C:
 
 ```c
-printf("Hello World!\n");
+printf("Hello World!\n")
 ```
