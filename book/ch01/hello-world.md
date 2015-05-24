@@ -31,8 +31,11 @@ venus hello.v
 
 The code does three things:
 
-1. import the standard I/O library module `std.io` so that we can call the `println` function in that module.
-2. define an entry point of the program with `main()`, in C this would be
+### 1. import the standard I/O library module `std.io` 
+
+so that we can call the `println` function in that module.
+
+### 2. define an entry point of the program with `main()`, in C this would be
 
 ```c
 int main() {
@@ -56,7 +59,9 @@ main() {
 }
 ```
 
-3. call the `println(...)` function to print a message to the console. Here `ln` means after the message we want a new line.
+### 3. call the `println(...)` function to print a message to the console. 
+
+Here `ln` means after the message we want a new line.
 
 `println(...)` is similar to this code in C:
 
