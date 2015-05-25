@@ -235,3 +235,19 @@ ids.set(5, "John")
 Note: you can easily create your own type of dict and it will look very similar to the built-in ones.
 
 See [dicts](dicts.md).
+
+
+## JSON support
+
+With array and dict literals, Venus support JSON syntax directly in the language
+
+```d
+var json = [{
+	"ids" : [1, 2, 3, 4, 5],
+	"names" : {
+		"James": ["LeBron", "Harden"],
+		"Paul" : ["Pierce", "Chris"]
+	}
+}]
+// type: array[any]
+```
