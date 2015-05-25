@@ -90,7 +90,7 @@ do {
 	val x = readLine()
 } while (x != EOF)
 ```
-- 'do-while-do' loop make the test mid of each loop:
+- `do-while-do` loop make the test mid of each loop:
 ```d
 do {
 	val line = readLine()  // this block will run each time
