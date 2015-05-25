@@ -42,7 +42,7 @@ It is at a very preliminary design state. No code has written yet.
 Before writing any code, I have to finish three tasks:
 
 1. [ ] Write the first draft of design docs
-2. [ ] Learn [LLVM](http://llvm.org)basics and make it into a chapter for the book.
+2. [ ] Learn [LLVM](http://llvm.org) basics and make it into a chapter for the book.
 3. [ ] Learn about D's implementation, especially [SDC](https://github.com/deadalnix/SDC) because it is written in idiomatic D.
 
 
