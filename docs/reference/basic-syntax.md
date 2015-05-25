@@ -1,6 +1,6 @@
 # Basic Syntax
 
-# Defining modules
+## Defining modules
 
 We can specify the module at the top of the code:
 
@@ -16,7 +16,7 @@ Modules should match directories and files, similar to D's module system.
 
 See [modules](modules.md)
 
-# defining functions
+## Defining functions
 
 A simple function with two parameters with type `int`, and returns a `int` value:
 
@@ -53,25 +53,29 @@ void printSum(int a, int b) {
 printSum(int a, int b) {
 	println(a + b)
 }
+```
 
 See [Functions](functions.md)
 
 
-# Defining local objects
+## Defining local objects
 
 Value object, that is, an object that is not mutable once initialized.
 
+```d
 val int a = 1 // a is a `value` object of type `int`
 val b = 2 // the type `int` is inferred by the assignment of number 2
 val int c // declared but not initiated. Here the type `int` is required because there is no value to infer
 c = 3 // first assignment is its initialization. after this, it can not be modified
 c = 4 // Error!: object `c` with value 3 is not mutable!
+```
 
 Variable object, that is, it is mutable.
 
+```d
 var int a = 1 // `a` is a variable of type int
 a = a + 1  // ok
-
+```
 
 # Using string templates
 
@@ -91,9 +95,9 @@ println("Your score is $score!")
 
 See [String templates](string-templates.md)
 
-# Conditionals
+## Conditional control flows
 
-`if-else` condition:
+`if-else` statement:
 
 ```d
 int max(int a, int b) {
@@ -102,7 +106,7 @@ int max(int a, int b) {
 }
 ```
 
-`if-elseif-else`:
+`if-elseif-else` statement:
 
 ```d
 int compare(int a, int b) {
@@ -110,9 +114,9 @@ int compare(int a, int b) {
 	else if (a = b) return 0
 	else return -1
 }
+```
 
-
-using `if` as an expression
+using `if` as an expression:
 
 ```d
 int max(int a, int b) = if (a > b) a else b
@@ -121,7 +125,7 @@ int max(int a, int b) = if (a > b) a else b
 see [if-else](if-else.md)
 
 
-# Using a `for` loop
+## Using a `for` loop
 
 ```d
 for i in (1, 3, 9, 12) {
@@ -131,7 +135,7 @@ for i in (1, 3, 9, 12) {
 
 see [for-loop](control-flow.md#for-loop)
 
-# Using a `while` loop
+## Using a `while` loop
 
 ```d
 var i = 0
@@ -149,7 +153,7 @@ while i < 5 {
 
 see [while-loop](while-loop.md)
 
-# Using `when` expression
+## Using `when` expression
 
 ```d
 var obj;
@@ -162,7 +166,7 @@ when(obj) {
 }
 ```
 
-# Using range operator
+## Using range operator
 
 ```d
 for x in (0..5)
@@ -179,7 +183,7 @@ By default, range is left-inclusive and right-exclusive:
 // output: 0,1,2,3,4
 ```
 
-# Using collections
+## Using collections
 
 Iterating over a collection
 
@@ -197,40 +201,19 @@ if (name in names) {
 }
 ```
 
-# Chaining functional calls
+## Chaining functional calls
 
 ```d
 
 names.filter(startsWith('A'))
-	.sort
-	.map(toLowerCase)
-	.each(println) 
+     .sort
+     .map(toLowerCase)
+     .each(println) 
 
-names .filter startsWith('A')
-	  .sort
-	  .map toLowerCase
-	  .each println
-
-chain names {
-	filter: startsWith('A')
-	sort:
-	map: toLowerCase
-	each: println
-}
-
-{
-	key : value
-	key : value
-	key : value
-	key : value
-}
-
-names -> {
-	filter: startsWith('A')
-	sort
-	map: toLowerCase
-	each: println
-}
+names .filter: startsWith('A')
+      .sort
+      .map: toLowerCase
+      .each: println
 
 
 ```
