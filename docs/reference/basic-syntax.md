@@ -153,15 +153,15 @@ while i < 5 {
 
 see [while-loop](while-loop.md)
 
-## Using `when` expression
+## Using `switch` expression
 
 ```d
 var obj;
-when(obj) {
-	1: print("One")
-	"Hello": print("Greeting")
-	isType[long] : print("long")
-	!isType[string] : print("Not a string")
+switch(obj) {
+    case 1: print("One")
+    case "Hello": print("Greeting")
+	case isType[long] : print("long")
+	case !isType[string] : print("Not a string")
 	else: print("Unknown")
 }
 ```
