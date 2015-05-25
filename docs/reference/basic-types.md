@@ -33,11 +33,26 @@ val a = 123 // default type: int
 val uint b = 123 // declare it is an uint
 val c = 1000L // long integers tails with a capital 'L'
 val d = 0x1F // hex numbers starts with '0x'
-val big_number = 1000_000_000 // for long numbers, you can add '_' to make it clearer
+val big_number = 1_000_000_000 // for long numbers, you can add '_' anywhere to make it clearer
 val e = 0b10001 // binary numbers starts with '0b'
+val e1 = 0b_10001 // because '_' can be anywhere (but not '0_b'), you might want it after '0b' to make it more clear.
 
 val f = 0.23 // default to doubles
 val g = 12. // also double
 val h = 0.9e12 // scientific
 val i = 0.12f // floats
 ```
+
+### Type conversions
+
+Implicit conversions are allowed only when there is no precision loss, otherwise you have to explicitly convert it.
+
+```d
+val short a = 123 
+val int b = a // OK, implicit conversion with no loss
+val byte c = b // Error! Might lose precision
+
+import std.conv  // explicit conversion functions are defined in std.conv module
+val byte d = a.to!byte // OK, explicit conversion
+```
+
