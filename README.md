@@ -2,12 +2,21 @@
 
 The Venus Programming Language is a C/C++ family language that aims to provide:
 
-- Easy to learn and use: Should be as easy as Python. 
-- Meta Programming: CTFE, AST Macros and other compile time structures 
-- Memory safety: RAII and RefCount by default, with occasional GC if you want.
-- Incremental & Interactive compilation.
+- Easy. It should be easy to learn, use and maintain: Should be as easy as Python, should be a good candidate as first language.
+- Static. The language is static typed
+- Dynamic. With `script` blocks, end users can view the language as a dynamic typed language.
+- Fast. Idiomatic code should run as fast as C/C++/D.
+- Quick. With incremental compiling and a persistent compiler storage, code blocks that didn't change never need to recompile. 
+- Meta: CTFE, AST Macros and other cool compile time structures inherited from D.
+- Safe: Memory safe, RAII and RefCount by default, with occasional thread local GC if you want. Null pointers are also dealt with in the language and you might never see an NPE again.
+- Extensible: With macros, you can define your own syntax. We'll provide a mechanism to promote popular personal defined syntax into the language. The same machanism will also help extend the std library.
+- Interoperable: need to be able to talk with C and Javascript. C++/D support are also in consideration.
+- Portable: Linux, MacOS, Windows. Major target is Ubuntu.
+- Bare-metal: able to run on an Arduino board or Raspberry Pie. Android & iOS support are welcome.
 
 The design is mainly inspired by [The D Programming Lanuage](http://dlang.org/), which as you may have noticed, shared many goals with mine.
+
+Many syntax are borrowed from [The Kotlin Language](http://kotlin-lang.org/).
 
 # Why a new language?
 
@@ -15,18 +24,6 @@ My major purpose is to learn how to write a language.
 I'm gonna write down my learning process as a book, as shown below.
 
 And hopefully when I finish the learning, I could come up with a prototype language that is as easy to use as Python, yet as efficient as C.
-
-
-# Ecosystem
-
-My goals for the language ecosystem include:
-
-- REPL: ipython like repl
-- Shell: Integrated shell in the repl. Should be able to completely replace bash/zsh
-- Builder: Gradle like builder/package manager
-- Editor: vim based commandline ide.
-- GUI: a native GUI framework based on OpenGL/SDL
-- IDE
 
 # Project Status
 
@@ -37,42 +34,6 @@ Before writing any code, I have to finish three tasks:
 1. [ ] Write the first draft of design docs
 2. [ ] Learn llvm
 3. [ ] Learn about D's implementation
-
-# Lanuage Design
-
-The Venus programming language is influenced by the following languages:
-
-### D
-
-You might find Venus much like D because I'm writing this language as my fork of D language. 
-D is a great language, it is the most flexible language I've seen so far and writing code in D is a very pleasant experience.
-I love many features in D and is going to implement them in Venus as well.
-
-But I'm still trying to create a new language rather than stick to using D because:
-
-- I'd like to learn from creating a new language.
-- Some of the default settings in the language was proved not the best. For example: final, pure, nothrow
-- D is huge. It has too many features and their interactions make it even more complicated. 
-- Unlike Python, D is not a good first language. I'd like a language perfect for newbies as well as proffesionals.
-
-I'm using D to implemented Venus.
-
-### C/C++
-
-This is obvious. Just like D, Venus is a C/C++ derivative. Venus will be binary compatible to C, just like D does.
-
-### Python
-
-- modules (a mix of python/D)
-- stdlib/docs
-- ease of use
-
-### Kotlin/Scala
-
-Some of the syntax are influenced by kotlin/scala
-
-- val, var
-- last function parameter expansion
 
 ## Hello world
 
@@ -93,6 +54,17 @@ main() {
 
 ## [Basic Syntax walkthrough](docs/reference/basic-syntax.md)
 
+
+# Ecosystem
+
+My goals for the language ecosystem include:
+
+- REPL: ipython like repl
+- Shell: Integrated shell in the repl. Should be able to completely replace bash/zsh
+- Builder: Gradle like builder/package manager
+- Editor: vim based commandline ide.
+- GUI: a native GUI framework based on OpenGL/SDL
+- IDE
 
 # Road Map
 
