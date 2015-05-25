@@ -85,9 +85,13 @@ main() {
 
 ```
 
-## The Design Book
+## The Book
 
 ## [Chapter 1: Tutorial](book/ch01/index.md)
+
+## Reference
+
+## [Basic Syntax walkthrough](docs/reference/basic-syntax.md)
 
 
 # Road Map
