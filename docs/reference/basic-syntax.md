@@ -205,15 +205,9 @@ if (name in names) {
 
 ```d
 
-names.filter(startsWith('A'))
-     .sort
-     .map(toLowerCase)
-     .each(println) 
-
-names .filter: startsWith('A')
+names .filter (startsWith('A'))
       .sort
-      .map: toLowerCase
-      .each: println
-
+      .map (toLowerCase)
+      .each (println) 
 
 ```
