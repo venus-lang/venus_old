@@ -8,7 +8,7 @@ main {
 }
 ```
 
-The Venus Programming Language is a C family language that aims to provide:
+The Venus Programming Language is a C family language that aims to be:
 
 - **Easy**. It should be easy to learn, use and maintain: Should be as easy as Python, should be a good candidate as first language.
 - **Static**. The language is static typed
