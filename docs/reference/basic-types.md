@@ -1,6 +1,6 @@
 # Basic Types
 
-Venus comes with built-in types like numbers, strings and dicts, and you can create your own type with the `type` statement. We'll introduce the built-in types first, which would cover most common tasks hopefully. And then you will see how to define your own type.
+Venus comes with built-in types like numbers, booleans, arrays, strings and dicts, and you can create your own type with the `type` statement. We'll introduce the built-in types first, which would cover most common tasks hopefully. And then you will see how to define your own type.
 
 ## Numbers
 
@@ -76,4 +76,42 @@ val int c = 0
 val bool d = c // c is now false
 val int e = d // e is now 0
 val int f = b // f is now 1, NOTE: not 100!
+```
+
+## Arrays and other list-like containers
+
+In venus arrays are a library defined container, with no special syntax for its literals
+
+```d
+val arr = array(1, 2, 3, 4) // type: std.array[int]
+
+for n in arr {
+  print(n)
+}
+// output: 1, 2, 3, 4
+```
+
+You might miss the array literal syntax in python, like:
+
+```python
+arr = [1, 2, 3, 4, 5]
+```
+
+We decided not to use that because the brackets `[]` in Venus is used in many compile time structures:
+
+- templates
+- generics
+- ctfe
+
+For literals, we have a compile time tuple literal:
+
+```d
+val elems = (1, 2, 3, 4, 5) // type: std.tuple[int] which behaves very much like static array in C, but it is immutable.
+
+for e in elems {
+  print(e)
+}
+
+val array arr = elems // tuple are implicitly convertable to array so you can use it just like it is an array.
+
 ```
