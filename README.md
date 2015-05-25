@@ -49,11 +49,15 @@ main() {
 
 ## The Book
 
-## [Chapter 1: Tutorial](book/ch01/index.md)
+### [Chapter 1: Tutorial](book/ch01/index.md)
+
 
 ## Reference
 
-## [Basic Syntax walkthrough](docs/reference/basic-syntax.md)
+
+### [Language design](docs/reference/design.md)
+### [Basic syntax walkthrough](docs/reference/basic-syntax.md)
+### [Basic types](docs/reference/basic-types.md)
 
 
 # Ecosystem
