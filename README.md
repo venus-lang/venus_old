@@ -3,10 +3,9 @@
 ```d
 import std.io
 
-main() {
+main {
   println("Hello Venus!")
 }
-
 ```
 
 The Venus Programming Language is a C/C++ family language that aims to provide:
@@ -16,7 +15,7 @@ The Venus Programming Language is a C/C++ family language that aims to provide:
 - **Dynamic**. With `script` blocks, end users can view the language as a dynamic typed language.
 - **Fast**. Idiomatic code should run as fast as C/C++/D.
 - **Quick**. With incremental compiling and a persistent compiler storage, code blocks that didn't change never need to recompile. 
-- **Meta**: CTFE, AST Macros and other cool compile time structures inherited from D.
+- **Meta**: Templates, `static` blocks, CTFE, AST Macros and other cool compile time structures.
 - **Safe**: Memory safe, RAII and RefCount by default, with occasional thread local GC if you want. Null pointers are also dealt with in the language and you might never see an NPE again.
 - **Extensible**: With macros, you can define your own syntax. We'll provide a mechanism to promote popular personal defined syntax into the language. The same machanism will also help extend the std library.
 - **Interoperable**: need to be able to talk with C and Javascript. C++/D support are also in consideration.
