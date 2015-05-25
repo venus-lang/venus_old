@@ -12,6 +12,7 @@ The Venus Programming Language is a C/C++ family language that aims to provide:
 - **Extensible**: With macros, you can define your own syntax. We'll provide a mechanism to promote popular personal defined syntax into the language. The same machanism will also help extend the std library.
 - **Interoperable**: need to be able to talk with C and Javascript. C++/D support are also in consideration.
 - **Portable**: Linux, MacOS, Windows. Major target is Ubuntu.
+- **Fullstack**: Backend (server), Frontend (dom or even css manipulation), MiddleWare, Shell, and Mobile. All enabled.
 - **Bare-metal**: able to run on an Arduino board or Raspberry Pie. Android & iOS support are welcome.
 
 The design is mainly inspired by [The D Programming Lanuage](http://dlang.org/), which as you may have noticed, shared many goals with mine.
