@@ -77,10 +77,10 @@ Some of the syntax are influenced by kotlin/scala
 ## Hello world
 
 ```d
-import std.io;
+import std.io
 
 main() {
-	println("Hello");
+	println("Hello")
 }
 
 ```
