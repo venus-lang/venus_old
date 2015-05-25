@@ -56,3 +56,24 @@ import std.conv  // explicit conversion functions are defined in std.conv module
 val byte d = a.to!byte // OK, explicit conversion
 ```
 
+## Booleans
+
+Boolean type has two values : `true` and `false`. In memory it is stored as one bit, with `true==1` and `false==0`.
+
+```d
+val bool a = true
+val bool b = false
+assert(bool.init == false) // default value of bool is false
+```
+
+Numbers can convert to boolean type implicitly because there would be no precision loss.
+Boolean can convert to number types with true => 1 and false => 0.
+
+```d
+val int a = 100
+val bool b = a // b is now true
+val int c = 0
+val bool d = c // c is now false
+val int e = d // e is now 0
+val int f = b // f is now 1, NOTE: not 100!
+```
