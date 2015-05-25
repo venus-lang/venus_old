@@ -79,30 +79,28 @@ val int f = b // f is now 1, NOTE: not 100!
 
 ## Arrays and other list-like containers
 
-In venus arrays are a library defined container, with no special syntax for its literals
+We use `[` and `]` to contain an array of objects:
 
 ```d
-val arr = array(1, 2, 3, 4) // type: std.array[int]
+val arr = [1, 2, 3, 4] // type: std.array[int]
 
 for n in arr {
   print(n)
 }
 // output: 1, 2, 3, 4
+
 ```
 
-You might miss the array literal syntax in python, like:
+Get an element in the array with the apply operator `()`
 
-```python
-arr = [1, 2, 3, 4, 5]
+```d
+val arr = [1, 2, 3, 4]
+val e = arr(0) // e == 1, because array index starts with 0
+
+val e = arr[0] // ERROR! unlike C or D, we don't support `[]` slice operator because it would conflict with other parts of the language
 ```
 
-We decided not to use that because the brackets `[]` in Venus is used in many compile time structures:
-
-- templates
-- generics
-- ctfe
-
-For literals, we have a compile time tuple literal:
+We also have a tuple type, quoted with '()' brackets:
 
 ```d
 val elems = (1, 2, 3, 4, 5) // type: std.tuple[int] which behaves very much like static array in C, but it is immutable.
@@ -113,6 +111,16 @@ for e in elems {
 
 val array arr = elems // tuple are implicitly convertable to array so you can use it just like it is an array.
 
+val pair = (1, "b") // type: std.tuple[int, string]
+
+val (c , d) = pair // c == 1, d == "b"; you can assign values with a tuple syntax to apply value one by one
+
+val big = 10000
+val small = 2
+
+(big, small) = (small, big)  // swap without a temprary object
+
+big, small = small, big // you can omit the brackets when there is no ambiguation (NOTE: need further check)
 ```
 
 ## Strings and characters
