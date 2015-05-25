@@ -1,5 +1,14 @@
 # The Venus Programming Language
 
+```d
+import std.io
+
+main() {
+  println("Hello Venus!")
+}
+
+```
+
 The Venus Programming Language is a C/C++ family language that aims to provide:
 
 - **Easy**. It should be easy to learn, use and maintain: Should be as easy as Python, should be a good candidate as first language.
@@ -33,31 +42,20 @@ It is at a very preliminary design state. No code has written yet.
 Before writing any code, I have to finish three tasks:
 
 1. [ ] Write the first draft of design docs
-2. [ ] Learn llvm
-3. [ ] Learn about D's implementation
+2. [ ] Learn [LLVM](http://llvm.org)basics and make it into a chapter for the book.
+3. [ ] Learn about D's implementation, especially [SDC](https://github.com/deadalnix/SDC) because it is written in idiomatic D.
 
-## Hello world
-
-```d
-import std.io
-
-main() {
-	println("Hello")
-}
-
-```
 
 ## The Book
 
-### [Chapter 1: Tutorial](book/ch01/index.md)
-
+#### [Chapter 1: Tutorial](book/ch01/index.md)
+#### [Chapter 2: First Step](book/ch02/index.md)
 
 ## Reference
 
-
-### [Language design](docs/reference/design.md)
-### [Basic syntax walkthrough](docs/reference/basic-syntax.md)
-### [Basic types](docs/reference/basic-types.md)
+#### [Language design](docs/reference/design.md)
+#### [Basic syntax walkthrough](docs/reference/basic-syntax.md)
+#### [Basic types](docs/reference/basic-types.md)
 
 
 # Ecosystem
