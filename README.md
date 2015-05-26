@@ -1,18 +1,27 @@
 # The Venus Programming Language
 
-The Venus Programming Language is a C/C++ family language that aims to provide:
+```d
+import std.io
 
-- Easy. It should be easy to learn, use and maintain: Should be as easy as Python, should be a good candidate as first language.
-- Static. The language is static typed
-- Dynamic. With `script` blocks, end users can view the language as a dynamic typed language.
-- Fast. Idiomatic code should run as fast as C/C++/D.
-- Quick. With incremental compiling and a persistent compiler storage, code blocks that didn't change never need to recompile. 
-- Meta: CTFE, AST Macros and other cool compile time structures inherited from D.
-- Safe: Memory safe, RAII and RefCount by default, with occasional thread local GC if you want. Null pointers are also dealt with in the language and you might never see an NPE again.
-- Extensible: With macros, you can define your own syntax. We'll provide a mechanism to promote popular personal defined syntax into the language. The same machanism will also help extend the std library.
-- Interoperable: need to be able to talk with C and Javascript. C++/D support are also in consideration.
-- Portable: Linux, MacOS, Windows. Major target is Ubuntu.
-- Bare-metal: able to run on an Arduino board or Raspberry Pie. Android & iOS support are welcome.
+main {
+  println("Hello Venus!")
+}
+```
+
+The Venus Programming Language is a C family language that aims to be:
+
+- **Easy**. It should be easy to learn, use and maintain: Should be as easy as Python, should be a good candidate as first language.
+- **Static**. The language is static typed
+- **Dynamic**. With `script` blocks, end users can view the language as a dynamic typed language.
+- **Fast**. Idiomatic code should run as fast as C/C++/D.
+- **Quick**. With incremental compiling and a persistent compiler storage, code blocks that didn't change never need to recompile. 
+- **Meta**: Templates, `static` blocks, CTFE, AST Macros and other cool compile time structures.
+- **Safe**: Memory safe, RAII and RefCount by default, with occasional thread local GC if you want. Null pointers are also dealt with in the language and you might never see an NPE again.
+- **Extensible**: With macros, you can define your own syntax. We'll provide a mechanism to promote popular personal defined syntax into the language. The same machanism will also help extend the std library.
+- **Interoperable**: need to be able to talk with C and Javascript. C++/D support are also in consideration.
+- **Portable**: Linux, MacOS, Windows. Major target is Ubuntu.
+- **Fullstack**: Backend (server), Frontend (dom or even css manipulation), MiddleWare, Shell, and Mobile. All enabled.
+- **Bare-metal**: able to run on an Arduino board or Raspberry Pie. Android & iOS support are welcome.
 
 The design is mainly inspired by [The D Programming Lanuage](http://dlang.org/), which as you may have noticed, shared many goals with mine.
 
@@ -32,27 +41,21 @@ It is at a very preliminary design state. No code has written yet.
 Before writing any code, I have to finish three tasks:
 
 1. [ ] Write the first draft of design docs
-2. [ ] Learn llvm
-3. [ ] Learn about D's implementation
+2. [ ] Learn [LLVM](http://llvm.org) basics and make it into a chapter for the book.
+3. [ ] Learn about D's implementation, especially [SDC](https://github.com/deadalnix/SDC) because it is written in idiomatic D.
 
-## Hello world
-
-```d
-import std.io
-
-main() {
-	println("Hello")
-}
-
-```
 
 ## The Book
 
-## [Chapter 1: Tutorial](book/ch01/index.md)
+#### [Chapter 1: Tutorial](book/ch01/index.md)
+#### [Chapter 2: First Step](book/ch02/index.md)
 
 ## Reference
 
-## [Basic Syntax walkthrough](docs/reference/basic-syntax.md)
+#### [Language design](docs/reference/design.md)
+#### [Basic syntax walkthrough](docs/reference/basic-syntax.md)
+#### [Basic types](docs/reference/basic-types.md)
+#### [Control flow](docs/reference/control-flow.md)
 
 
 # Ecosystem

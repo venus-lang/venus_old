@@ -46,11 +46,12 @@ There may be many lines in a text file. So in order to print every line, you hav
 
 For loop is the language structure used to iterate the lines. Acutally, for loop can iterator all kinds of collections with many objects: arrays, file, ranges, streams, etc.
 
-For example, if you have an array of integers: `[1, 2, 3, 4]`, you can:
+For example, if you have a collection of integers, say `(1, 2, 3, 4)`, you can:
 
 ```d
-for n in [1, 2, 3, 4] {
-	println("The square of ", n, " is ", n*n);
+val xs = (1, 2, 3, 4)
+for n in xs {
+  println("The square of ", n, " is ", n*n);
 }
 ```
 
@@ -73,7 +74,7 @@ Venus is a functional language, which means we can call functions with functions
 import std.io
 
 main() {
-	open('message.txt').each(println)
+  open('message.txt').each(println)
 }
 ```
 
