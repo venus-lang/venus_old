@@ -57,6 +57,7 @@ Before writing any code, I have to finish three tasks:
 #### [Basic types](docs/reference/basic-types.md)
 #### [Control flow](docs/reference/control-flow.md)
 #### [Functions](docs/reference/functions.md)
+#### [Classes](docs/reference/classes.md)
 
 
 # Ecosystem
