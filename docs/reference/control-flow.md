@@ -73,6 +73,22 @@ for (ref item in collection) item = item + 1
 collection.each { it = it + 1 }
 ```
 
+### `for-mid` loop
+
+If you want to do something between each loop, that is, after each loop, but not after the last one, you can use `mid` block:
+
+```d
+for (n in [1, 2, 3]) {
+  print(n)
+} mid {
+  print(',')
+}
+// output: 1,2,3
+
+// shorter form
+for n in [1, 2, 3] print(n) mid print(',')
+```
+
 ## While loops
 
 There are two types of while loops:
@@ -90,13 +106,15 @@ do {
 	val x = readLine()
 } while (x != EOF)
 ```
-- `do-while-do` loop make the test mid of each loop:
+- `while-mid` loop will do some thing between each loop:
 ```d
-do {
-	val line = readLine()  // this block will run each time
-} while (line != EOF) {
-	parse(line)  // this block will not run at the last loop when the test is failed
+while (val x = readLine; x != EOF) {
+   puts(line)
+} mid {
+   puts('\n')
 }
 ```
+
+with `mid` block to print the seperators, you will not have the unnecessary trailing '\n'
 
 
