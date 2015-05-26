@@ -180,7 +180,7 @@ By default, range is left-inclusive and right-exclusive:
 
 ```d
 (0..5).each(print)
-// output: 0,1,2,3,4
+// output: 01234
 ```
 
 ## Using collections
