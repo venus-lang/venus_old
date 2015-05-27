@@ -17,15 +17,22 @@ The Venus Programming Language is a C family language that aims to be:
 - **Quick**. With incremental compiling and a persistent compiler storage, code blocks that didn't change never need to recompile. 
 - **Meta**: Templates, `static` blocks, CTFE, AST Macros and other cool compile time structures.
 - **Safe**: Memory safe, RAII and RefCount by default, with occasional thread local GC if you want. Null pointers are also dealt with in the language and you might never see an NPE again.
+- **Concurrent**: Fiber, channel, coroutines. Even the language itself will be concurrent.
 - **Extensible**: With macros, you can define your own syntax. We'll provide a mechanism to promote popular personal defined syntax into the language. The same machanism will also help extend the std library.
 - **Interoperable**: need to be able to talk with C and Javascript. C++/D support are also in consideration.
 - **Portable**: Linux, MacOS, Windows. Major target is Ubuntu.
 - **Fullstack**: Backend (server), Frontend (dom or even css manipulation), MiddleWare, Shell, and Mobile. All enabled.
 - **Bare-metal**: able to run on an Arduino board or Raspberry Pie. Android & iOS support are welcome.
 
-The design is mainly inspired by [The D Programming Lanuage](http://dlang.org/), which as you may have noticed, shared many goals with mine.
+The language in influenced by many languages:
 
-Many syntax are borrowed from [The Kotlin Language](http://kotlin-lang.org/).
+- [D](https://dlang.org/) - Venus is actually a 'fork' of D (originally named Mars language), so many of the features comes from D. The language will be implemented in D.
+- C/C++ - Venus is a C family language. No need to explain more.
+- [Python](https://python.org/) - My main goal for Venus was to design a static and native version of Python. I learned many things from Python's library API, docs and ipython repl.
+- [Kotlin](https://kotlin-lang.org/) - I borrowed many syntax from kotlin. I was a fan of kotlin but not such fan of JVM, I hope kotlin would come native too. The first draft of the reference docs is based on kotlin's docs because I once translated them to Chinese and was very familiar with it.  
+- [Go](https://golang.org/) - Concurrency model, tooling and the strategy of bootstrapping with C and then go full go.
+- Clojure - value, ref, state, time... you see the similarities.
+- Scala - Kotlin is influenced by Scala and I'm too.
 
 # Why a new language?
 
