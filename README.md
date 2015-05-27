@@ -55,9 +55,11 @@ Before writing any code, I have to finish three tasks:
 #### [Language design](docs/reference/design.md)
 #### [Basic syntax walkthrough](docs/reference/basic-syntax.md)
 #### [Basic types](docs/reference/basic-types.md)
+#### [Objects](docs/reference/objects.md)
 #### [Control flow](docs/reference/control-flow.md)
 #### [Functions](docs/reference/functions.md)
-#### [Classes](docs/reference/classes.md)
+#### [Types](docs/reference/types.md)
+
 
 
 # Ecosystem
