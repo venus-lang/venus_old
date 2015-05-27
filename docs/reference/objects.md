@@ -20,11 +20,38 @@ Values are immutable objects in the system.
 val a = 1 // a is inferred to int
 val a = 2 // ERROR! value objects are immutable, you can not assign value to it
 val b = a // OK, a's value is copied to b. Acutally, b and a might be optimized to be the same memory block.
-val c = a + 1 // a is used as normal value in an expression
-val d = square(a) // OK
 ```
 
+Variables are mutable, at any time you want
 
+```d
+var a = 1 
+a = 2 // OK
+a = 3 // OK
 
+var b = a // b == 3, here b and a have same value, but they are different.
+b = 4 // OK. Here only b is momdified, a is still 3.
+```
+When you assign a var to another, its value is actually copied into the receiver var.
 
+```d
+var date1 = Date.create // create a new date
+var date2 = date1  // the value of date1 is copied into date2, so that modifying date2 would not affect date1
+```
+When you are dealing with complicated types, this operation might be costly.
+
+To avoid copies when reading, or if you actually want to modify the original var, use `ref`:
+
+Reference help you manipulate a variable effiently (without copying).
+
+```d
+var a = 1
+ref b = a // here b is acutally pointing to a, so modifiying b will also change a
+b = 3 // now a is also 3
+print(a) // output: 3
+```
+
+You can also make a ref of a val, but that would be unneccesary most of the time,
+because assignment of val is usually optimised with a ref by the compiler:
+"These things can not change, so why do I bother copying it? just use a ref!"
 
