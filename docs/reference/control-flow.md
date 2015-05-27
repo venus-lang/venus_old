@@ -11,7 +11,10 @@ val a = 1
 val b = 2
 val int c = if (a > b) { return b } else { return a }
 
-// you can omit `return` at the last statement, and because there is only one statement at each part, also omit the braces:
+// you can omit braces because each block has only one statement
+val int c = if (a > b} return b else return a
+
+// and you can omit the `return` keyword because it is the last expression of its block
 val int c = if (a > b) b else a
 ```
 
