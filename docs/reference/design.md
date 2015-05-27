@@ -17,9 +17,6 @@ But I'm still trying to create a new language rather than stick to using D becau
 
 I'm using D to implemented Venus.
 
-### C/C++
-
-This is obvious. Just like D, Venus is a C/C++ derivative. Venus will be binary compatible to C, just like D does.
 
 ### Python
 
@@ -27,9 +24,27 @@ This is obvious. Just like D, Venus is a C/C++ derivative. Venus will be binary 
 - stdlib/docs
 - ease of use
 
-### Kotlin/Scala
+### Kotlin
 
-Some of the syntax are influenced by kotlin/scala
+Some of the syntax are influenced by kotlin
 
 - val, var
 - last function parameter expansion
+
+### C/C++
+
+This is obvious. Just like D, Venus is a C/C++ derivative. Venus will be binary compatible to C, just like D does.
+
+### Rust
+
+### Go
+- [Go](https://golang.org/) - Concurrency model, tooling and the strategy of bootstrapping with C and then go full go.
+
+### Clojure
+- Clojure - value, ref, state, time... you see the similarities.
+
+### Scala
+- Scala - Kotlin is influenced by Scala and I'm too.
+
+### Javascript
+
