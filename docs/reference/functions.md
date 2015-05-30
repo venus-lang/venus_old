@@ -255,7 +255,7 @@ So the lambda `x => x % 2 == 0` has a parameter `x`, its type is inferred by `ar
 Without type inference, you might need to write a more verbose form:
 
 ```d
-arr.filter ( int(int x) => x % 2 == 0 )
+arr.filter ( bool(int x) => x % 2 == 0 )
 ```
 
 Because in most cases, when you want to use lambdas, you only want one paremeter, so we provide an even simpler form:
