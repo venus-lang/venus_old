@@ -6,7 +6,11 @@ Venus provide three kinds of objects for their different behavior rules:
 
 - value (`val`) : immutable object that represent a timeless value. 
 - variable (`var`) : an object that can change its value over time, this is same as variables in C
-- reference (`ref`) : an reference to an object so that we can efficiently manage objects
+- reference (`ref`) : a constant reference to an object so that we can efficiently read objects, *NOTE*, not like C++/D, reference is readonly. For modifications, use `ptr`
+- pointer (`ptr`): a pointer to an object, so that we can efficiently modify objects.
+
+`ref` and `ptr` objects are particularly useful in function calls
+
 
 ## Rationale
 Venus promotes the functional programming style, so we encourage you to use value instead of variable where ever possible. Think in data transformation (stream) instead of data mutation (state).
@@ -40,13 +44,19 @@ var date2 = date1  // the value of date1 is copied into date2, so that modifying
 ```
 When you are dealing with complicated types, this operation might be costly.
 
-To avoid copies when reading, or if you actually want to modify the original var, use `ref`:
+To avoid copies when reading, use `ref`: 
 
-Reference help you manipulate a variable effiently (without copying).
+```d
+var complicateObject = ComplicateType.create // create an new instance of 
+ref b = complicatObject // no copy here
+print(b.toString()) // same as complicateObject.toString()
+```
+
+if you actually want to modify the original var, use `ptr`:
 
 ```d
 var a = 1
-ref b = a // here b is acutally pointing to a, so modifiying b will also change a
+ptr b = a // here b is acutally pointing to a, so modifiying b will also change a
 b = 3 // now a is also 3
 print(a) // output: 3
 ```
