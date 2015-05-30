@@ -33,6 +33,86 @@ val str = substr(text, 0, 5) // substr() has three parameters
 print("This", "world", "is", "full", "of", "suprises") //  print() can have any number of parameters, that is, print() is a var-arg functions
 ```
 
+## Pure functions
+
+In venus, functions are `pure` unless declared `impure`. 
+A pure function must:
+- be consistent: thati is, it returns the same value when called with the same set of parameters.
+- no side effect: it does not mutate a global state.
+
+With these two constraints, calling a pure function is safe across threads and there is no need to worry about synchronization,
+making it easy to scale up to multi-core and massive concurrency.
+Its behavior is very deterministic, so their will be more opportunities for the compiler to optimise.
+
+In venus, `print` functions are viewed as pure because the printed message is readonly. Pure and I/O will be discussed in the I/O section.
+
+In order to hold the pure constraints, parameters passed in are by default not mutable.
+
+So if you define a pure function, you can not modify the parameter value in the function body:
+
+```d
+int add(int a, int b) {
+	a = a + 1 // ERROR!: parameter `a` of pure function `add` is readonly!
+	return a + b
+}
+```
+
+To make the code more effient, unlike C/C++/D, a parameter is by default a readonly reference to the passed in argument.
+
+it is as if you defined the function in this way:
+
+```d
+int add(ref int a, ref int b) {
+	// ...
+}
+```
+
+#### Note for C++/D programmers
+this is the same in C++/D as:
+
+```d
+int add(const int& a, const int& b) pure {
+	// ...
+}
+```
+
+### Mutating parameter 
+
+To modify the passed in argument, you need:
+- specify the function `impure`
+- add a `ptr` attribute to the argument
+
+```d
+impure negate(ptr int num) {
+	num = - num
+}
+
+var a = 10
+negate(a)
+print(a) // output: -10
+```
+
+### Copy parameter
+
+In other situations, you might want to copy the passed in argument. 
+You can specify thie behavior with `copy` attribute:
+
+```d
+int add(copy int a, copy int b) {
+	// here both `a` and `b` are a copy of the value
+	// ...
+}
+```
+
+Copy the passed in argument into a mutable `var` is the default behavior in C++/D functions,
+In Venus, we can write that as:
+
+```d
+impure int add(copy var int a, copy var int b) {
+	// ...
+}
+```
+
 ## Default Parameter value
 
 You can specify a default value for parameters. So if the caller omit that parameter when he calls, the default value is used.
