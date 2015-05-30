@@ -218,6 +218,55 @@ When the function body has only one expression, you can omit the `{}` braces and
 int add(int a, int b) = a + b
 ```
 
+## Function literals (Lambdas)
+
+At times you might want to quickly define a tiny function to use right away,
+you don't even need to name it.
+for convenience, Venus provides a syntax to write function literals.
+
+NOTE: Functiona literals are also called `lambda`s. 
+
+For example, you might want to do a quick filter with an array to select the even numbers:
+
+```d
+bool isEven(int num) {
+	return num % 2 == 0
+}
+
+val arr = [1, 2, 3, 4, 5]
+val filtered = arr.filter(isEven)
+print(filtered) // output: [2, 4]
+```
+
+With lambda, you can write:
+
+```d
+arr.filter ( x => x % 2 == 0 )
+```
+
+Lambda syntax is as follows:
+
+```d
+Parameter_List => Function_Body_Expression
+```
+
+So the lambda `x => x % 2 == 0` has a parameter `x`, its type is inferred by `arr`'s element type; it returns a `bool` value, as inferred from the `==` expression.
+
+Without type inference, you might need to write a more verbose form:
+
+```d
+arr.filter ( int(int x) => x % 2 == 0 )
+```
+
+Because in most cases, when you want to use lambdas, you only want one paremeter, so we provide an even simpler form:
+
+```d
+arr.filter ( it % 2 == 0 ) 
+```
+
+`it` is a new key word that represent the sole parameter in the lambda.
+
+
 ## Variable number of parameters.
 
 you can add `...` at the end of parameter list to indicate that the function takes variable length parameters.
