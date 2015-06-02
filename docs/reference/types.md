@@ -293,7 +293,7 @@ When you define a subtype that inherit from a base type, you can override the be
 
 ```
 type Base {
-	void run() {
+	virtual void run() {
 		println("run base")
 	}
 }
@@ -311,6 +311,8 @@ d.run()
 // run base
 // Run Derived
 ```
+
+Note: You can only override methods annotated with `virtual`.
 
 You can call a method of base type in sub type with `super.method()`.
 
@@ -333,7 +335,7 @@ type Human: Runnable {
 }
 ```
 
-Typically interfaces does not have method implementations, 
+Typically interfaces does not have method implementations, all methods in an interface are by default `virtual`
 
 You can combine interfaces to make code more readable.
 
