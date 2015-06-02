@@ -291,7 +291,7 @@ To emulate that in Venus, you can use interfaces or composition when appropriate
 
 When you define a subtype that inherit from a base type, you can override the behavior of some of its methods:
 
-```
+```d
 type Base {
 	virtual void run() {
 		println("run base")
