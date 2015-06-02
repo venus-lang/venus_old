@@ -139,7 +139,7 @@ In the above code, Sum.id is still immutable (it gets initialized by a counter a
 For immutable types, sometimes you might want to initialize it step by step, but the creator can be called only once and nothing you can do to modify the object further.
 For these situations, Venus provides `Builders` to help you build your object at your own pace and release it when you're done:
 
-```
+```d
 type Node {
 	int id
 	int depth
