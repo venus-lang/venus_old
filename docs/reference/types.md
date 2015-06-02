@@ -45,6 +45,16 @@ You can also write out the `create` for clarity:
 val node = Node.create() // same as Node()
 ```
 
+## Type members
+
+Other than fields, we can embed other members in a type:
+
+- Methods: member functions that work closely on the type.
+- Properties: functions that work like fields which you can get/set, and also take control of it.
+- Nested types: we can define types inside type definition. 
+
+These things are discussed in further sections.
+
 ## Object initialization
 
 When an object is created, each field is initialized with an default value of its type.
@@ -105,6 +115,31 @@ val node2 = Node() // ERROR!: creator with paramters () is not defined!
 ```
 
 In `create` function, you can use `this` to differenciate from the field from the parameter in case they have the same name.
+
+## Object destruction
+
+You might allocate resources when creating an object, such like allocating a memory block, opening a file handle, a network socket or a lock.
+
+In Venus, these resources can be released when the object is destructed (e.g. out of scope).
+
+To release resources on destruction, define a `destruct` method in the type:
+
+```d
+import std.io
+type Text {
+	string path
+	private File file
+
+	create(string path) {
+		this.path = path
+		this.file = open(file) // open the file resource
+	}
+
+	destruct() {
+		this.file.close() // release it
+	}
+}
+```
 
 ## Mutable types 
 
@@ -172,6 +207,140 @@ val node = with(Node.builder) {
 	create()
 }
 ```
+
+# Type interactions
+
+Types can interact with each other:
+
+- composition: we can combine two or more types together to get a more complicated type. Just like Lego blocks
+- subtyping: we can create a new type based on a existing type, with little tweaks for our needs.
+- type calculations: we can calculate type relations at compile time, with operations similar to numbers (`+`, `-`, `*`, `/`, and `|`, `&`)
+
+## Type composition
+
+we can make a composite of other types using `with` operator in a type definition:
+
+```d
+type Wings {
+	int length
+	
+	int fly() {
+		println("Flying up high")
+		return 5 // meters
+	}
+}
+
+type Bird with Wings {
+	string name
+
+	create(string name, int wingLength) {
+		this.name = name
+		this.wings.length = wingLength
+	}
+}
+
+val chuck = Bird("chuck", 5)
+chuck.fly()
+
+assert(chuck.isInstance(Bird)) // true
+assert(chuck.isInstance(Wings)) // false
+assert(chuck.hasInstance(Wings)) // true
+```
+
+Here a `Bird` has `Wings`, so it can do anything that `Wings` does--by using its `Wings`--including `fly()`.
+
+With composition, we have a way to do traditional `has-a` relation in Object Oriented programming.
+
+We call `Wings` a `part` of `Bird`.
+
+A type can have many parts:
+
+```d
+type Bird with Wings, Legs, Heart {
+	//...
+}
+```
+
+
+## Type Inheritance
+
+When you have got a base type, you can define a sub type that `inherit` from the base type,
+that is, an object of the sub type is an instance of the base type.
+We call it `is-a` relationship in Object Oriented jargon.
+
+```
+type Base {
+	int id
+}
+
+type Sub : Base {
+
+}
+
+val obj = Sub()
+assert (obj.type == Sub) // true
+assert (obj.isInstance[Sub]) // true
+assert (obj.isInstance[Base]) // true
+```
+
+Venus does not support multiple base types, 
+so one type can only inherit from one base type.
+To emulate that in Venus, you can use interfaces or composition when appropriate.
+
+## Method override
+
+When you define a subtype that inherit from a base type, you can override the behavior of some of its methods:
+
+```
+type Base {
+	void run() {
+		println("run base")
+	}
+}
+
+type Derived : Base {
+	override void run() {
+		super.run()
+		println("Run Derived")
+	}
+}
+
+val d = Derived()
+d.run()
+// output:
+// run base
+// Run Derived
+```
+
+You can call a method of base type in sub type with `super.method()`.
+
+### subtype initialization
+
+
+## Interfaces
+
+Interface is a abstract contract that defines what to do. It is usually consisted of a set of methods.
+
+```d
+interface Runnable {
+	void run()
+}
+
+type Human: Runnable {
+	void run() {
+		print("I'm a running guy...")
+	}
+}
+```
+
+Typically interfaces does not have method implementations, 
+
+You can combine interfaces to make code more readable.
+
+```d
+interface Humanoid = static { Runnable + Walkable + Talkable + NeedSleep }
+```
+
 
 ## In Depth: Field alignment
 
