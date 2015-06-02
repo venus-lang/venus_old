@@ -343,7 +343,40 @@ You can combine interfaces to make code more readable.
 interface Humanoid = static { Runnable + Walkable + Talkable + NeedSleep }
 ```
 
+## Data types
 
-## In Depth: Field alignment
+In many cases, we have types used only as data:
+- no methods
+- all fields are public
+- need to be able to be easily as primary data types
+- able to control the memory layout 
 
-In C, you can specify the alignment of each field in a struct, to make the whole data more align in the memory, thus increase efficiency.
+For this, Venus provide a special kind of type: data type:
+
+```
+data Point {
+	int x  // these fields are public by default, unlike types
+	int y
+}
+
+val p = Point(x=1, y=2)
+
+// Compiler will generate a `copy` method to easily convert data values
+val p1 = p.copy(y=3)  // p1 = Point(x=1, y=3)
+val p2 = p.copy(x=4) // p2 = Point(x=4, y=2)
+val p3 = p.copy(x=5, y=6) // you can move with all fields modified
+
+// data types has a default to string implementation
+val str = p.toString() // str == "Point(x=1, y=2)"
+
+// data types has toJSON and parseJSON fields
+val json = p.toJSON() // json == '{"x":1,"y":2}'
+val p5 = Point.parseJSON('{"x":1,"y":2}')
+
+// and binary serialization
+val bytes = p.encode()
+val p6 = Point.decode(bytes) // p6 == p
+
+// Data types also support destructuring
+val x, y = p  // x == 1, y == 2
+```
