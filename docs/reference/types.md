@@ -218,11 +218,11 @@ Types can interact with each other:
 
 ## Type composition
 
-we can make a composite of other types using `with` operator in a type definition:
+we can make a composite of other types using `has` operator in a type definition:
 
 ```d
 type Wings {
-	int length
+	public int length
 	
 	int fly() {
 		println("Flying up high")
@@ -230,12 +230,13 @@ type Wings {
 	}
 }
 
-type Bird with Wings {
+type Bird {
+	has Wings wings
 	string name
 
 	create(string name, int wingLength) {
 		this.name = name
-		this.wings.length = wingLength
+		this.wings = Wings(wingLength)
 	}
 }
 
@@ -353,7 +354,7 @@ In many cases, we have types used only as data:
 
 For this, Venus provide a special kind of type: data type:
 
-```
+```d
 data Point {
 	int x  // these fields are public by default, unlike types
 	int y
