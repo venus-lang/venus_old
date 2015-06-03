@@ -76,7 +76,7 @@ I'm trying to make each task as clear and practiciable as possible so that with 
 
 * Basic Design
   - [x] Read [kotlin docs](http://kotlinlang.org/docs/reference/).
-  - [x] write the first draft of [design docs](docs/references/index.md)
+  - [x] write the first draft of [design docs](docs/reference/index.md)
   - [x] Read [LLVM](http://llvm.org) tutorials and write a chapter about it
   - [ ] read [D docs](http://dlang.org/spec.html) and update Venus design
   - [ ] read [Rust docs](http://doc.rust-lang.org/stable/book/) and update Venus design
