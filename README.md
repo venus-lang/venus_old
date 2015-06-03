@@ -69,23 +69,25 @@ My goals for the language ecosystem include:
 
 # TODO list
 
-2. [ ] Learn [LLVM](http://llvm.org) basics and make it into a chapter for the book.
+2. [ ] Learnbasics and make it into a chapter for the book.
 3. [ ] Learn about D's implementation, especially [SDC](https://github.com/deadalnix/SDC) because it is written in idiomatic D.
 
 
 ### V0.0 Preparation
 
 * Basic Design
-  - [x] write the first draft of design docs
-  - [ ] Learn LLVM tutorials, write a chapter about it
-  - [ ] read D docs
-  - [ ] read Rust docs
-  - [ ] read Python docs
+  - [x] Read [kotlin docs](http://kotlinlang.org/docs/reference/).
+  - [x] write the first draft of [design docs](docs/references/index.md)
+  - [x] Read [LLVM](http://llvm.org) tutorials and write a chapter about it
+  - [ ] read [D docs](http://dlang.org/spec.html) and update Venus design
+  - [ ] read [Rust docs](http://doc.rust-lang.org/stable/book/) and update Venus design
+  - [ ] read [Python docs](https://docs.python.org/3/) and update Venus design
 
 * Project bootstrap
   - [ ] make a new D project
   - [ ] learn SDC - lexer
   - [ ] learn SDC - llvm-bindings
+  - [ ] translate LLVM tutorial code into D code
 
 ### V0.1
 
