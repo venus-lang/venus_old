@@ -69,8 +69,8 @@ My goals for the language ecosystem include:
 
 # TODO list
 
-3. [ ] Learn about D's implementation, especiallybecause it is written in idiomatic D.
-
+Before V1.0, the project is split into many iterations and TODO task goals are set for each iteration.
+I'm trying to make each task as clear and practiciable as possible so that with each step finished we get a visible improvement.
 
 ### V0.0 Preparation
 
@@ -83,7 +83,7 @@ My goals for the language ecosystem include:
   - [ ] read [Python docs](https://docs.python.org/3/) and update Venus design
 
 * Project bootstrap
-  - [ ] make a new D project
+  - [ ] Make a new D project
   - [ ] learn [SDC](https://github.com/deadalnix/SDC) - Basic Lexer and Parser
   - [ ] learn [SDC](https://github.com/deadalnix/SDC) - LLVM bindings
   - [ ] translate LLVM tutorial code into D code
