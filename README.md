@@ -69,10 +69,10 @@ My goals for the language ecosystem include:
 
 # TODO list
 
-Before V1.0, the project is split into many iterations and TODO task goals are set for each iteration.
+Before version 1.0, the project is split into many iterations (0.x dot versions) and TODO task goals are set for each iteration.
 I'm trying to make each task as clear and practiciable as possible so that with each step finished we get a visible improvement.
 
-### V0.0 Preparation
+### 0.0 - Preparation
 
 * Basic Design
   - [x] Read [kotlin docs](http://kotlinlang.org/docs/reference/).
@@ -88,45 +88,68 @@ I'm trying to make each task as clear and practiciable as possible so that with 
   - [ ] learn [SDC](https://github.com/deadalnix/SDC) - LLVM bindings
   - [ ] translate LLVM tutorial code into D code
 
-### V0.1
+### 0.1 A Basic C like language
 
-* Simplest C like language subset
+* Minimum language subset
   - [ ] basic function
   - [ ] basic type - int
   - [ ] if-else
-* procedure programing
+* C style procedure programing
 * C integration
 * C standard lib integration
 
-### V0.2
-- functional programming
+### 0.2 More C support and a basic stdlib
+* More basic types
+  - [ ] bit
+  - [ ] byte
+  - [ ] short
+  - [ ] float
+  - [ ] double
+* Basic `type` system
+  - [ ] data type
+  - [ ] integrate with C struct
+  - [ ] function with data type
+* functional programming
+* Basic stdlib
+
+
+### 0.3 Basic OO
+
+* `type` support
+  - type definition
+  - field
+  - creator
+  - destructor
+  - method
+* basic collections
+  - range
+  - tuple
+  - array
+  - dict
+  - option
+
+### 0.4 Thread and Fiber
 - thread/fiber/coroutine
 - array/dict lib
 
-### V0.3
-- class
-- repl
-
-### V0.4
+### 0.5
 - ctfe
 - shell
-
-### V0.5
 - macro
 - other static features
 
-### V0.6
+### 0.6
 - stdlib
 
-### V0.7
+### 0.7
 - builder
 - text editor
 
-### V0.8
+### 0.8
 - GUI
 
-### V0.9
+### 0.9
 - IDE
 
-### V1.0
+### 0.10
 - cross platform
