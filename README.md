@@ -69,8 +69,7 @@ My goals for the language ecosystem include:
 
 # TODO list
 
-2. [ ] Learnbasics and make it into a chapter for the book.
-3. [ ] Learn about D's implementation, especially [SDC](https://github.com/deadalnix/SDC) because it is written in idiomatic D.
+3. [ ] Learn about D's implementation, especiallybecause it is written in idiomatic D.
 
 
 ### V0.0 Preparation
@@ -85,8 +84,8 @@ My goals for the language ecosystem include:
 
 * Project bootstrap
   - [ ] make a new D project
-  - [ ] learn SDC - lexer
-  - [ ] learn SDC - llvm-bindings
+  - [ ] learn [SDC](https://github.com/deadalnix/SDC) - Basic Lexer and Parser
+  - [ ] learn [SDC](https://github.com/deadalnix/SDC) - LLVM bindings
   - [ ] translate LLVM tutorial code into D code
 
 ### V0.1
