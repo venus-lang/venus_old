@@ -78,10 +78,25 @@ My goals for the language ecosystem include:
 - GUI: a native GUI framework based on OpenGL/SDL
 - IDE
 
-# Road Map
+# TODO list
+
+### V0.0 Preparation
+
+- [x] write the first draft of design docs
+- [ ] read D docs
+- [ ] read Rust docs
+- [ ] read Python docs
+- [ ] finish LLVM tutorials
+- [ ] make a new D project
+- [ ] learn SDC - lexer
+- [ ] learn SDC - llvm-bindings
 
 ### V0.1
 
+- Simplest C like language subset
+  - [ ] basic function
+  - [ ] basic type - int
+  - [ ] if-else
 - procedure programing
 - C integration
 - C standard lib integration
