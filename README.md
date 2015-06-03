@@ -24,7 +24,7 @@ The Venus Programming Language is a C family language that aims to be:
 - **Fullstack**: Backend (server), Frontend (dom or even css manipulation), MiddleWare, Shell, and Mobile. All enabled.
 - **Bare-metal**: able to run on an Arduino board or Raspberry Pie. Android & iOS support are welcome.
 
-The language in influenced by many languages:
+Venus is influenced by many languages:
 
 - [D](https://dlang.org/) - Venus is actually a 'fork' of D (originally named Mars language), so many of the features comes from D. The language will be implemented in D.
 - [Python](https://python.org/) - My main goal for Venus was to design a static and native version of Python. I learned many things from Python's library API, docs and ipython repl.
