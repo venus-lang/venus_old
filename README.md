@@ -40,8 +40,8 @@ And hopefully when I finish the learning, I could come up with a prototype langu
 
 ## The Book
 
-#### [Chapter 1: Tutorial](book/ch01/index.md)
-#### [Chapter 2: First Step](book/ch02/index.md)
+#### [Chapter 1: Tutorial](docs/book/ch01/index.md)
+#### [Chapter 2: First Step](docs/book/ch02/index.md)
 
 ## Reference
 
