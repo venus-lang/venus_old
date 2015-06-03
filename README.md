@@ -38,17 +38,6 @@ I'm gonna write down my learning process as a book, as shown below.
 
 And hopefully when I finish the learning, I could come up with a prototype language that is as easy to use as Python, yet as efficient as C.
 
-# Project Status
-
-It is at a very preliminary design state. No code has written yet.
-
-Before writing any code, I have to finish three tasks:
-
-1. [ ] Write the first draft of design docs
-2. [ ] Learn [LLVM](http://llvm.org) basics and make it into a chapter for the book.
-3. [ ] Learn about D's implementation, especially [SDC](https://github.com/deadalnix/SDC) because it is written in idiomatic D.
-
-
 ## The Book
 
 #### [Chapter 1: Tutorial](book/ch01/index.md)
@@ -80,26 +69,33 @@ My goals for the language ecosystem include:
 
 # TODO list
 
+2. [ ] Learn [LLVM](http://llvm.org) basics and make it into a chapter for the book.
+3. [ ] Learn about D's implementation, especially [SDC](https://github.com/deadalnix/SDC) because it is written in idiomatic D.
+
+
 ### V0.0 Preparation
 
-- [x] write the first draft of design docs
-- [ ] read D docs
-- [ ] read Rust docs
-- [ ] read Python docs
-- [ ] finish LLVM tutorials
-- [ ] make a new D project
-- [ ] learn SDC - lexer
-- [ ] learn SDC - llvm-bindings
+* Basic Design
+  - [x] write the first draft of design docs
+  - [ ] Learn LLVM tutorials, write a chapter about it
+  - [ ] read D docs
+  - [ ] read Rust docs
+  - [ ] read Python docs
+
+* Project bootstrap
+  - [ ] make a new D project
+  - [ ] learn SDC - lexer
+  - [ ] learn SDC - llvm-bindings
 
 ### V0.1
 
-- Simplest C like language subset
+* Simplest C like language subset
   - [ ] basic function
   - [ ] basic type - int
   - [ ] if-else
-- procedure programing
-- C integration
-- C standard lib integration
+* procedure programing
+* C integration
+* C standard lib integration
 
 ### V0.2
 - functional programming
