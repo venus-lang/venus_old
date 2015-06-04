@@ -29,7 +29,7 @@ Venus is influenced by many languages:
 - [D](https://dlang.org/) - Venus is actually a 'fork' of D (originally named Mars language), so many of the features comes from D. The language will be implemented in D.
 - [Python](https://python.org/) - My main goal for Venus was to design a static and native version of Python. I learned many things from Python's library API, docs and ipython repl.
 - [Kotlin](https://kotlin-lang.org/) - I borrowed many syntax from kotlin. I was a fan of kotlin but not such fan of JVM, I hope kotlin would come native too. The first draft of the reference docs is based on kotlin's docs because I once translated them to Chinese and was very familiar with it.
-- Other languages including C/C++, Go, Clojure, Scala, Rust and Javascript. See the [design](docs/reference/design.md) section in the reference
+- Other languages including C/C++, Go, Clojure, Scala, Rust and Javascript. See the [design](reference/design.md) section in the reference
 
 # Why a new language?
 
@@ -40,19 +40,19 @@ And hopefully when I finish the learning, I could come up with a prototype langu
 
 ## The Book
 
-#### [Chapter 1: Tutorial](docs/book/ch01/index.md)
-#### [Chapter 2: First Step](docs/book/ch02/index.md)
+#### [Chapter 1: Tutorial](book/ch01/index.md)
+#### [Chapter 2: First Step](book/ch02/index.md)
 
 ## Reference
 
-#### [Language design](docs/reference/design.md)
-#### [Basic syntax walkthrough](docs/reference/basic-syntax.md)
-#### [Basic types](docs/reference/basic-types.md)
-#### [Objects](docs/reference/objects.md)
-#### [Control flow](docs/reference/control-flow.md)
-#### [Functions](docs/reference/functions.md)
-#### [Modules](docs/reference/modules.md)
-#### [Types](docs/reference/types.md)
+#### [Language design](reference/design.md)
+#### [Basic syntax walkthrough](reference/basic-syntax.md)
+#### [Basic types](reference/basic-types.md)
+#### [Objects](reference/objects.md)
+#### [Control flow](reference/control-flow.md)
+#### [Functions](reference/functions.md)
+#### [Modules](reference/modules.md)
+#### [Types](reference/types.md)
 
 
 
@@ -75,8 +75,8 @@ I'm trying to make each task as clear and practiciable as possible so that with 
 ### 0.0 - Preparation
 
 * Basic Design
-  - [x] Read [kotlin docs](http://kotlinlang.org/docs/reference/).
-  - [x] write the first draft of [design docs](docs/reference/index.md)
+  - [x] Read [kotlin docs](http://kotlinlang.org/reference/).
+  - [x] write the first draft of [design docs](reference/index.md)
   - [x] Read [LLVM](http://llvm.org) tutorials and write a chapter about it
   - [ ] read [D docs](http://dlang.org/spec.html) and update Venus design
   - [ ] read [Rust docs](http://doc.rust-lang.org/stable/book/) and update Venus design
