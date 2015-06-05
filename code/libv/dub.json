@@ -1,0 +1,8 @@
+{
+	"name": "libv",
+	"description": "Venus compiler",
+	"copyright": "Copyright © 2015, Zhao Puming",
+	"authors": ["zhaopuming"],
+	"dependencies": {
+	}
+}

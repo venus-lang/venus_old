@@ -1,0 +1,16 @@
+{
+	"name": "venus",
+	"description": "The Venus Programming Language",
+	"copyright": "Copyright © 2015, Zhao Puming",
+	"authors": ["zhaopuming"],
+	"dependencies": {
+		"venus:libv": "*"
+	},
+	"subPackages": [
+		"./libv/",
+		"./libe/",
+		"./libn/",
+		"./libu/",
+		"./libs/"
+		]
+}
