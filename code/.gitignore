@@ -6,3 +6,5 @@ __dummy.html
 dub.selections.json
 venus
 libv/libv
+*.a
+*.userprefs
