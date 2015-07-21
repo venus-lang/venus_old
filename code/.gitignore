@@ -8,3 +8,4 @@ venus
 libv/libv
 *.a
 *.userprefs
+__test__library__

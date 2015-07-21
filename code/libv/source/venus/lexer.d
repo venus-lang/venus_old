@@ -372,3 +372,12 @@ auto isIdChar(C)(C c) {
     }
 }
 
+unittest {
+	Context ctx = new Context();
+	string code = `1 + 1`;
+	auto lexer = lex(code, ctx);
+	foreach (tok; lexer) {
+		writeln("TOK:", tok);
+	}
+}
+
