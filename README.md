@@ -77,7 +77,7 @@ I'm trying to make each task as clear and practiciable as possible so that with 
 * Basic Design
   - [x] Read [kotlin docs](http://kotlinlang.org/docs/reference/).
   - [x] write the first draft of [design docs](docs/reference/index.md)
-  - [x] Read [LLVM](http://llvm.org) tutorials and write a chapter about it
+  - [ ] Read [LLVM](http://llvm.org) tutorials and write a chapter about it
   - [ ] read [D docs](http://dlang.org/spec.html) and update Venus design
   - [ ] read [Rust docs](http://doc.rust-lang.org/stable/book/) and update Venus design
   - [ ] read [Python docs](https://docs.python.org/3/) and update Venus design
@@ -87,6 +87,7 @@ I'm trying to make each task as clear and practiciable as possible so that with 
   - [ ] learn [SDC](https://github.com/deadalnix/SDC) - Basic Lexer and Parser
   - [ ] learn [SDC](https://github.com/deadalnix/SDC) - LLVM bindings
   - [ ] translate LLVM tutorial code into D code
+  - [ ] refer to [orange](https://github.com/orange-lang/orange) as a startkit reference for its C++/LLVM code
 
 ### 0.1 A Basic C like language
 
