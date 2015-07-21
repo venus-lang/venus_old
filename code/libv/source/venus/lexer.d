@@ -1,6 +1,10 @@
 module venus.lexer;
 import std.range;
 import std.stdio;
+import std.conv;
+import std.uni;
+import std.utf;
+alias isUniAlpha = std.uni.isAlpha;
 
 enum TokenType {
     Invalid = 0,
@@ -44,7 +48,11 @@ enum TokenType {
     Minus, // '-'
     Star, // '*'
     Slash, // '/'
+    Dot, // '.'
+    Assign, // "="
 
+    // Language
+    Import,
 }
 
 struct Name {
@@ -108,6 +116,15 @@ public:
 
         return Name(id);
     }
+
+    string printToken(Token tok) {
+        return "Token[" ~ tok.type.to!string ~ "," ~ tok.name.to!string ~ "," ~ tok.name.toString(this) ~ "]";
+    }
+
+    void printLookups() {
+        writeln("Lookups:", lookups);
+        writeln("Names:", names);
+    }
 }
 
 public {
@@ -117,6 +134,8 @@ public {
             "-" : Minus,
             "*" : Star,
             "/"	: Slash,
+            "." : Dot,
+            "=" : Assign,
         ];
 
     }
@@ -141,6 +160,8 @@ public {
             "if": If,
             "else": Else,
             "while": While,
+            // language block
+            "import": Import,
         ];
     }
 
@@ -209,7 +230,7 @@ struct Token {
     Name name;
 }
 
-auto lex(R)(R r, Context context) if (isForwardRange!R) {
+auto lex(R)(R r, Context ctx) if (isForwardRange!R) {
 
     struct Lexer {
 
@@ -252,11 +273,11 @@ auto lex(R)(R r, Context context) if (isForwardRange!R) {
                         popChar();
                         switch (r.front) {
                             case '/', '*':
-                                writeln("COomment");
+                                writeln("Comment..");
                                 lexComment(f);
                                 continue;
                             default:
-                                return lexOperation(f);
+                                return lexOperator(f);
                         }
                     case '0': .. case '9':
                         writeln("lexNumeric");
@@ -265,12 +286,12 @@ auto lex(R)(R r, Context context) if (isForwardRange!R) {
                         //					return lexString(r);
                         //				case `'`:
                         //					return lexChar(r);
-                    case '+', '-', '*': // TODO: '/'
+                    case '+', '-', '*', '=', '.': // TODO: '/'
                         popChar();
-                        return lexOperation(f);
+                        return lexOperator(f);
                     default:
                         writeln("lexDefault");
-                        return lexIdentifier(r);
+                        return lexIdentifier();
                 }
             }
         }
@@ -361,13 +382,20 @@ auto lex(R)(R r, Context context) if (isForwardRange!R) {
             return tok;
         }
 
-        Token lexIdentifier(R r) {
+        Token lexIdentifier() {
 
+            writeln("Identifier:");
             Token tok;
+            string name;
+            auto c = r.front;
+            while (c.isIdChar) {
+                name ~= c;
+                c = nextChar();
+                writeln("r.front:", c);
+            }
+            writeln("name:", name);
+            tok.name = context.getName(name);
             tok.type = TokenType.Identifier;
-            uint l = line, begin = cast(uint) (index - r.length);
-            tok.name = context.getName("val");
-            popChar();
             return tok;
         }
 
@@ -377,8 +405,17 @@ auto lex(R)(R r, Context context) if (isForwardRange!R) {
             return tok;
         }
 
-        Token lexOperation(dchar f) {
+        Token lexOperator(dchar f) {
             Token tok;
+            /*
+            if (auto tokType = (f in getOperatorsMap())) {
+                tok.type = *tokType;
+            } else {
+                writeln("Unknown operator:", f);
+            }
+            popChar();
+            return tok;
+*/
             switch (f) {
                 case '+':
                     tok.type = TokenType.Plus;
@@ -392,6 +429,12 @@ auto lex(R)(R r, Context context) if (isForwardRange!R) {
                 case '/':
                     tok.type = TokenType.Slash;
                     break;
+                case '=':
+                    tok.type = TokenType.Assign;
+                    break;
+                case '.':
+                    tok.type = TokenType.Dot;
+                    break;
                 default:
                     writeln("Unknown operation", f);
                     break;
@@ -403,6 +446,7 @@ auto lex(R)(R r, Context context) if (isForwardRange!R) {
 
     auto lexer = Lexer();
     lexer.r = r.save;
+    lexer.context = ctx;
     lexer.t.type = TokenType.Begin;
 
     return lexer;
@@ -423,13 +467,15 @@ unittest {
     string code = `//a
     /* b
     */
+    import std.io
+    var a
     1 + 1
     1 - 1
     1 * 1
     1 / 2`;
 	auto lexer = lex(code, ctx);
 	foreach (tok; lexer) {
-		writeln("TOK:", tok);
+		writeln("TOK:", ctx.printToken(tok));
 	}
 }
 
