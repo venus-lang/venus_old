@@ -241,15 +241,23 @@ auto lex(R)(R r, Context context) if (isForwardRange!R) {
         auto getNextToken() {
             while (1) {
                 if (r.empty()) return lexEnd();
-                switch (r.front) {
+                dchar f = r.front;
+                switch (f) {
                     case '\0':
                         return lexEnd();
                     case ' ', '\t', '\v', '\f', '\n', '\r':
                         lexWhiteSpace(r);
                         continue;
                     case '/':
-                        lexComment(r);
-                        continue;
+                        popChar();
+                        switch (r.front) {
+                            case '/', '*':
+                                writeln("COomment");
+                                lexComment(f);
+                                continue;
+                            default:
+                                return lexOperation(f);
+                        }
                     case '0': .. case '9':
                         writeln("lexNumeric");
                         return lexNumeric(r);
@@ -258,7 +266,8 @@ auto lex(R)(R r, Context context) if (isForwardRange!R) {
                         //				case `'`:
                         //					return lexChar(r);
                     case '+', '-', '*': // TODO: '/'
-                        return lexOperation(r);
+                        popChar();
+                        return lexOperation(f);
                     default:
                         writeln("lexDefault");
                         return lexIdentifier(r);
@@ -271,6 +280,12 @@ auto lex(R)(R r, Context context) if (isForwardRange!R) {
             ++index;
         }
 
+        auto nextChar() {
+            r.popFront();
+            ++index;
+            return r.front;
+        }
+
     private: // lex parts
         void lexWhiteSpace(R r) {
             auto c = r.front;
@@ -279,8 +294,7 @@ auto lex(R)(R r, Context context) if (isForwardRange!R) {
                 popChar();
             }
             else if (c == '\r') {
-                popChar();
-                c = r.front;
+                c = nextChar();
                 if (c == '\n') {
                     popChar();
                 }
@@ -290,13 +304,14 @@ auto lex(R)(R r, Context context) if (isForwardRange!R) {
             }
         }	
 
-        void lexComment(R r) {
-            popChar();
+        void lexComment(dchar head) {
+            //popChar(); // pop the already checked '/'
             auto c = r.front;
+            writeln("comment front:", c);
             if (c == '/') { // one line comment
                 while (c != '\n' && c != '\r') {
-                    popChar();
-                    c = r.front;
+                    c = nextChar();
+                    writeln("checking:", c);
                 }
 
                 popChar();
@@ -305,6 +320,34 @@ auto lex(R)(R r, Context context) if (isForwardRange!R) {
                 }
                 ++line;
             } else if (c == '*') {
+            Pump: while (1) {
+                    while (c != '*' && c != '\r' && c != '\n') {
+                        c = nextChar();
+                    }
+
+                    auto match = c;
+                    c = nextChar();
+                    switch (match) {
+                        case '*':
+                            if (c == '/') {
+                                popChar();
+                                break Pump;
+                            }
+                            break;
+                        case '\r':
+                            if (c == '\n') {
+                                c = nextChar();
+                            }
+
+                            line++;
+                            break;
+                        case '\n':
+                            line++;
+                            break;
+                        default:
+                            assert(0, "Unreachable in lexComment.");
+                    }
+                }
 
             }
         }
@@ -334,9 +377,9 @@ auto lex(R)(R r, Context context) if (isForwardRange!R) {
             return tok;
         }
 
-        Token lexOperation(R r) {
+        Token lexOperation(dchar f) {
             Token tok;
-            switch (r.front) {
+            switch (f) {
                 case '+':
                     tok.type = TokenType.Plus;
                     break;
@@ -348,6 +391,9 @@ auto lex(R)(R r, Context context) if (isForwardRange!R) {
                     break;
                 case '/':
                     tok.type = TokenType.Slash;
+                    break;
+                default:
+                    writeln("Unknown operation", f);
                     break;
             }
             popChar();
@@ -374,7 +420,13 @@ auto isIdChar(C)(C c) {
 
 unittest {
 	Context ctx = new Context();
-	string code = `1 + 1`;
+    string code = `//a
+    /* b
+    */
+    1 + 1
+    1 - 1
+    1 * 1
+    1 / 2`;
 	auto lexer = lex(code, ctx);
 	foreach (tok; lexer) {
 		writeln("TOK:", tok);
