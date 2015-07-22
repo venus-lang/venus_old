@@ -38,7 +38,14 @@ I'm gonna write down my learning process as a book, as shown below.
 
 And hopefully when I finish the learning, I could come up with a prototype language that is as easy to use as Python, yet as efficient as C.
 
-## The Book
+## The Books
+
+### Designing Venus
+
+#### [Chapter 1: Intro](docs/books/designing-venus/ch01/index.md)
+#### [Chapter 2: Milestone 1 - A Better C](docs/books/designing-venus/ch02/index.md)
+
+### Learning Venus
 
 #### [Chapter 1: Tutorial](docs/book/ch01/index.md)
 #### [Chapter 2: First Step](docs/book/ch02/index.md)
