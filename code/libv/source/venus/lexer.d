@@ -25,7 +25,7 @@ enum TokenType {
 
     
     // Control flow
-    Do, Else, If, While, 
+    Do, Else, If, While, In, Return, For,
 
     // Seperators
     BraceBegin, BraceEnd,
@@ -47,7 +47,7 @@ enum TokenType {
     Not, // '!'
 
     // Language
-    Import, Extern, LineSep,
+    Import, Extern, LineSep, Main,
 }
 
 public {
@@ -98,6 +98,10 @@ public {
             // language block
             "import": Import,
             "extern": Extern,
+            "in": In,
+            "return" : Return,
+            "main" : Main,
+            "for" : For,
         ];
     }
 
@@ -148,7 +152,8 @@ private {
 
     enum Lookups = getLookups();
 
-    enum Keywords = getKeywordsMap();
+    enum OperatorsMap = getOperatorsMap();
+    enum KeywordsMap = getKeywordsMap();
 }
 
 struct Name {
@@ -177,6 +182,11 @@ public:
     bool isDefined() const {
         return id != 0;
     }
+
+    string toString() const {
+        return id.to!string;
+    }
+
 }
 
 template BuiltinName(string name) {
@@ -214,7 +224,11 @@ public:
     }
     
     string printToken(Token tok) {
-        return "Token[" ~ tok.type.to!string ~ "," ~ tok.name.to!string ~ "," ~ tok.name.toString(this) ~ "]";
+        import std.string: leftJustify;
+        return "Token:\t" 
+            ~ tok.name.to!string.leftJustify(5) ~ ",\t"
+            ~ tok.type.to!string.leftJustify(12) ~ ",\t"
+            ~ tok.name.toString(this) ~ "";
     }
     
     void printLookups() {
@@ -421,7 +435,7 @@ private: // lex parts
         }
         
         tok.name = context.getName(name);
-        if (auto tokType = name in Keywords) {
+        if (auto tokType = name in KeywordsMap) {
             tok.type = *tokType;
         } else {
             tok.type = TokenType.Identifier;
@@ -555,9 +569,9 @@ unittest {
             6 / 7;
             
             if a > 1 {
-                println("a > 1");
+                println("a is greater");
             } else
-                println("a < 1");
+                println("a is less");
             
             val arr = [1, 2, 3, 4, 5];
             for n in arr {
