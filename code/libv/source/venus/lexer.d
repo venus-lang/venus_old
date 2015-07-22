@@ -224,10 +224,10 @@ public:
     }
     
     string printToken(Token tok) {
-        import std.string: leftJustify;
+        import std.string: rightJustify;
         return "Token:\t" 
-            ~ tok.name.to!string.leftJustify(5) ~ ",\t"
-            ~ tok.type.to!string.leftJustify(12) ~ ",\t"
+            ~ tok.name.to!string.rightJustify(6) ~ ","
+            ~ tok.type.to!string.rightJustify(14) ~ ",\t"
             ~ tok.name.toString(this) ~ "";
     }
     
