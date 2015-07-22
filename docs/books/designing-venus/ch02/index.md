@@ -45,5 +45,6 @@ main {
 
     // call println function in std.io module
     println("sin(30°)=", result)
+
 }
 ```

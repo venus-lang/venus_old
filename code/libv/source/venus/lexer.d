@@ -28,8 +28,9 @@ enum TokenType {
     Do, Else, If, While, 
 
     // Seperators
-    BlockBegin, BlockEnd,
+    BraceBegin, BraceEnd,
     ParenBegin, ParenEnd,
+    SquareBegin, SquareEnd,
 
     // Operators
     Plus, // '+'
@@ -39,6 +40,11 @@ enum TokenType {
     Dot, // '.'
     Assign, // "="
     Comma, // ','
+    Greater, // '>'
+    Less, // '<'
+    Equal, // '=='
+    NotEqual, // '!='
+    Not, // '!'
 
     // Language
     Import, Extern, LineSep,
@@ -53,11 +59,18 @@ public {
             "/"	: Slash,
             "." : Dot,
             "=" : Assign,
-            "{": BlockBegin,
-            "}": BlockEnd,
+            "{": BraceBegin,
+            "}": BraceEnd,
             "(": ParenBegin,
             ")": ParenEnd,
             ",": Comma,
+            ">": Greater,
+            "<": Less,
+            "==" : Equal,
+            "!=" : NotEqual,
+            "!" : Not,
+            "[" : SquareBegin,
+            "]" : SquareEnd,
         ];
 
     }
@@ -232,9 +245,10 @@ struct Token {
  */
 bool isOp(dchar c) {
     return c == '+' || c == '-' || c == '*' || c == '/' 
-        || c == '.' || c == '=' 
-            || c == '{' || c == '}' || c == '(' || c == ')'
-            || c == ',';
+        || c == '.' || c == '=' || c == ',' || c == '!'
+        || c == '<' || c == '>'
+        || c == '{' || c == '}' || c == '(' || c == ')' || c == '[' || c == ']'
+            ;
 }
 
 struct Lexer(R) {
@@ -291,7 +305,7 @@ private:
                     return lexString();
                 case '\'':
                     return lexChar();
-                case '+', '-', '*', '=', '.', '{', '}', '(', ')', ',': // TODO: use operator map here. What if D has pattern matching...
+                case '+', '-', '*', '=', '.', '{', '}', '(', ')', ',', '<', '>', '!', '[', ']': // TODO: use operator map here. What if D has pattern matching...
                     popChar();
                     return lexOperator(f);
                 default:
@@ -319,8 +333,12 @@ private: // lex parts
         Token tok;
         tok.type = TokenType.LineSep;
         string name;
+        if (c == ';') {
+            name = ";";
+            c = nextChar();
+        }
         if (c == '\n') {
-            name = "\\n";
+            name ~= "\\n";
             ++line;
             popChar();
         }
@@ -328,14 +346,14 @@ private: // lex parts
             c = nextChar();
             if (c == '\n') {
                 popChar();
-                name = "\\r\\n";
+                name ~= "\\r\\n";
             } else {
-                name = "\\r";
+                name ~= "\\r";
             }
             ++line;
-        } else { // ';'
+        } else if (c == ';') { // ';'
             name = ";";
-            popChar();
+            c = nextChar();
         }
         tok.name = context.getName(name);
         return tok;
@@ -527,14 +545,29 @@ unittest {
         }
 
         main {
-            println("hello")
+            println("hello");
 
-                var a = 1.1
-                val c = 'a'
-                1 + 2 
-                2 - 3 
-                4 * 5 
-                6 / 7
+            var a = 1.1;
+            val c = 'a';
+            1 + 2;
+            2 - 3;
+            4 * 5;
+            6 / 7;
+            
+            if a > 1 {
+                println("a > 1");
+            } else
+                println("a < 1");
+            
+            val arr = [1, 2, 3, 4, 5];
+            for n in arr {
+                println(n);
+            }
+            var i = 0;
+            while (i < 5) {
+                println(i);
+                i = i + 1;
+            }
         }
         
     };
