@@ -77,9 +77,10 @@ I'm trying to make each task as clear and practiciable as possible so that with 
 * Basic Design
   - [x] Read [kotlin docs](http://kotlinlang.org/docs/reference/).
   - [x] write the first draft of [design docs](docs/reference/index.md)
-  - [ ] Read [LLVM](http://llvm.org) tutorials and write a chapter about it
+  - [x] Read [LLVM](http://llvm.org) tutorials
   - [ ] read [D docs](http://dlang.org/spec.html) and update Venus design
   - [ ] read [Rust docs](http://doc.rust-lang.org/stable/book/) and update Venus design
+  - [ ] read [Go docs](http://golang.org/doc) and update Venus design
   - [ ] read [Python docs](https://docs.python.org/3/) and update Venus design
 
 * Project bootstrap
@@ -89,12 +90,15 @@ I'm trying to make each task as clear and practiciable as possible so that with 
   - [ ] translate LLVM tutorial code into D code
   - [ ] refer to [orange](https://github.com/orange-lang/orange) as a startkit reference for its C++/LLVM code
 
-### 0.1 A Basic C like language
+### 0.1 A Basic C like language (M1)
 
 * Minimum language subset
-  - [ ] basic function
-  - [ ] basic type - int
-  - [ ] if-else
+  - [x] design the language, called milestone 1 (M1)
+  - [ ] document the language M1
+  - [x] write a lexer for M1 (returns a range of Token)
+  - [ ] write a parser for M1 (returns an AST tree)
+  - [ ] write a basic code generation with LLVM (returns IR/JITed code)
+  
 * C style procedure programing
 * C integration
 * C standard lib integration
