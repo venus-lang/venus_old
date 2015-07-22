@@ -7,15 +7,7 @@ import std.utf;
 import std.ascii;
 alias isUniAlpha = std.uni.isAlpha;
 alias isPunct = std.ascii.isPunctuation;
-/**
- * Check a char is an operator (and not string/char quotes)
- */
-bool isOp(dchar c) {
-    return c == '+' || c == '-' || c == '*' || c == '/' 
-            || c == '.' || c == '=' 
-            || c == '{' || c == '}' || c == '(' || c == ')'
-            || c == ',';
-}
+
 
 enum TokenType {
     Invalid = 0, Begin, End,
@@ -235,6 +227,15 @@ struct Token {
     Name name;
 }
 
+/**
+ * Check a char is an operator (and not string/char quotes)
+ */
+bool isOp(dchar c) {
+    return c == '+' || c == '-' || c == '*' || c == '/' 
+        || c == '.' || c == '=' 
+            || c == '{' || c == '}' || c == '(' || c == ')'
+            || c == ',';
+}
 
 struct Lexer(R) {
     
