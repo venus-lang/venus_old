@@ -5,271 +5,72 @@ import std.conv;
 import std.uni;
 import std.utf;
 import std.ascii;
+
+import venus.context;
+
+unittest {
+    Context ctx = new Context();
+    string code = q{
+        // one-line comment
+        /*
+         * This is multiline comment and should be ignored by the compiler
+         */
+        import std.io;
+            
+        extern double sin(double d);
+        int add(int a, int b) { return a + b }
+        
+        def double times(double c, double d) { return c * d }
+        
+        script { println("hello"); }
+        
+        dynamic {
+            var x = 1;
+            println(sin(x));
+        }
+        
+        static { int MAX_INT = int.MAX; }
+        
+        main {
+            println("hello");
+            
+            var a = 1.1;
+            val c = 'a';
+            1 + 2;
+            2 - 3;
+            4 * 5;
+            6 / 7;
+            
+            if a > 1 {
+                println("a is greater");
+            } else
+                println("a is less");
+            
+            val arr = [1, 2, 3, 4, 5];
+            for n in arr {
+                println(n);
+            }
+            var i = 0;
+            while (i < 5) {
+                println(i);
+                i = i + 1;
+            }
+        }
+        
+    };
+    auto lexer = lex(code, ctx);
+    foreach (tok; lexer) {
+        //writeln(ctx.getTokenString(tok));
+    }
+}
+
 alias isUniAlpha = std.uni.isAlpha;
 alias isPunct = std.ascii.isPunctuation;
-
-
-enum TokenType {
-    Invalid = 0, Begin, End,
-
-    // Literals
-    Identifier, StringLiteral, CharLiteral, IntLiteral, FloatLiteral,
-
-    // Keywords
-
-    // Object/Type
-    Val, Var, Ptr, Ref,
-
-    // Builtin Type
-    Bit, Byte, Char, Short, Int, Long, Float, Double,
-
-    
-    // Control flow
-    Do, Else, If, While, In, Return, For,
-
-    // Seperators
-    BraceBegin, BraceEnd,
-    ParenBegin, ParenEnd,
-    SquareBegin, SquareEnd,
-
-    // Operators
-    Plus, // '+'
-    Minus, // '-'
-    Star, // '*'
-    Slash, // '/'
-    Dot, // '.'
-    Assign, // "="
-    Comma, // ','
-    Greater, // '>'
-    Less, // '<'
-    Equal, // '=='
-    NotEqual, // '!='
-    Not, // '!'
-
-    // Language
-    Import, Extern, LineSep, Main,
-}
-
-public {
-    auto getOperatorsMap() {
-        with(TokenType) return [
-            "+" : Plus,
-            "-" : Minus,
-            "*" : Star,
-            "/"	: Slash,
-            "." : Dot,
-            "=" : Assign,
-            "{": BraceBegin,
-            "}": BraceEnd,
-            "(": ParenBegin,
-            ")": ParenEnd,
-            ",": Comma,
-            ">": Greater,
-            "<": Less,
-            "==" : Equal,
-            "!=" : NotEqual,
-            "!" : Not,
-            "[" : SquareBegin,
-            "]" : SquareEnd,
-        ];
-
-    }
-
-    auto getKeywordsMap() {
-        with(TokenType) return [
-            // built-in types
-            "val": Val,
-            "var": Var,
-            "ptr": Ptr,
-            "ref": Ref, 
-            "bit": Bit,
-            "byte": Byte,
-            "char": Char,
-            "short": Short,
-            "int": Int,
-            "long": Long,
-            "float": Float,
-            "double": Double,
-            // Control flow
-            "do": Do,
-            "if": If,
-            "else": Else,
-            "while": While,
-            // language block
-            "import": Import,
-            "extern": Extern,
-            "in": In,
-            "return" : Return,
-            "main" : Main,
-            "for" : For,
-        ];
-    }
-
-}
-
-private {
-    enum Reserved = ["__ctor", "__dtor", "__vtbl"];
-
-    enum Prefill = [
-        // Linkages
-        "C", "D", "C++", "Windows", "System", "Pascal", "Java", "Venus",
-        // Version
-        "Linux", "OSX",
-        // Generated
-        "init", "length", "max", "min", "sizeof", "create",
-        // Scope
-        "exit", "success", "failure",
-        // Main
-        "main", "_vmain",
-        // Attribute
-        "property", "unsafe", "dynamic", "alloc",
-
-    ];
-
-    auto getNames() {
-        auto identifiers = [""];
-        foreach (k, _; getOperatorsMap()) {
-            identifiers ~= k;
-        }
-        foreach (k, _; getKeywordsMap()) {
-            identifiers ~= k;
-        }
-
-        return identifiers ~ Reserved ~ Prefill;
-    }
-
-    enum Names = getNames();
-
-    static assert(Names[0] == "");
-
-    auto getLookups() {
-        uint[string] lookups;
-        foreach (uint i, id; Names) {
-            lookups[id] = i;
-        }
-        return lookups;
-    }
-
-    enum Lookups = getLookups();
-
-    enum OperatorsMap = getOperatorsMap();
-    enum KeywordsMap = getKeywordsMap();
-}
-
-struct Name {
-private:
-    uint id;
-    
-    this(uint id) {
-        this.id = id;
-    }
-public:
-    string toString(const ref NameManager nm) const {
-        return nm.names[id];
-    }
-    
-    @property
-    bool isEmpty() const {
-        return this == BuiltinName!"";
-    }
-    
-    @property
-    bool isReserved() const {
-        return id < (Names.length - Prefill.length);
-    }
-    
-    @property
-    bool isDefined() const {
-        return id != 0;
-    }
-
-    string toString() const {
-        return id.to!string;
-    }
-
-}
-
-template BuiltinName(string name) {
-    private enum id = Lookups.get(name, uint.max);
-    static assert(id < uint.max, name ~ " is not a builtin name.");
-    enum BuiltinName = Name(id);
-}
-
-struct NameManager {
-private:
-    string[] names;
-    uint[string] lookups;
-    
-    // make it not copyable
-    @disable this(this);
-    
-package:
-    static get() {
-        return NameManager(Names, Lookups);
-    }
-    
-public:
-    auto getName(string s) {
-        if (auto id = s in lookups) {
-            return Name(*id);
-        }
-        
-        // Do not keep around slice of potentially large input.
-        s = s.idup; // similar problem to old java's string
-        
-        auto id = lookups[s] = cast(uint) names.length;
-        names ~= s;
-        
-        return Name(id);
-    }
-    
-    string printToken(Token tok) {
-        import std.string: rightJustify;
-        return "Token:\t" 
-            ~ tok.name.to!string.rightJustify(6) ~ ","
-            ~ tok.type.to!string.rightJustify(14) ~ ",\t"
-            ~ tok.name.toString(this) ~ "";
-    }
-    
-    void printLookups() {
-        writeln("Lookups:", lookups);
-        writeln("Names:", names);
-    }
-}
-
-/** Context **/
-final class Context {
-    NameManager nameManager;
-    alias nameManager this;
-
-    this() {
-        nameManager = NameManager.get();
-    }
-}
-
-/** Lexer **/
-
-struct Token {
-    TokenType type;
-    Name name;
-}
-
-/**
- * Check a char is an operator (and not string/char quotes)
- */
-bool isOp(dchar c) {
-    return c == '+' || c == '-' || c == '*' || c == '/' 
-        || c == '.' || c == '=' || c == ',' || c == '!'
-        || c == '<' || c == '>'
-        || c == '{' || c == '}' || c == '(' || c == ')' || c == '[' || c == ']'
-            ;
-}
 
 struct Lexer(R) {
     
     Token t;
     R r;
-    
     Context context;
     
     uint line = 1;
@@ -534,60 +335,21 @@ auto isIdChar(C)(C c) {
     static if (is(C == char)) {
         return c == '_' || isAlphaNum(c);
     } else static if (is(C == wchar) || is(C == dchar)) {
-        return isUniAlpha(c);
+        return isUniAlpha(c) || c == '_';
     } else {
         static assert(0, "This function is only for character types");
     }
 }
 
-unittest {
-    Context ctx = new Context();
-    string code = q{
-        // one-line comment
-        /*
-         * This is multiline comment and should be ignored by the compiler
-         */
-        import std.io
-
-        extern double sin(double d);
-        int add(int a, int b) {
-            return a + b
-        }
-
-        double times(double c, double d) {
-            return c * d
-        }
-
-        main {
-            println("hello");
-
-            var a = 1.1;
-            val c = 'a';
-            1 + 2;
-            2 - 3;
-            4 * 5;
-            6 / 7;
-            
-            if a > 1 {
-                println("a is greater");
-            } else
-                println("a is less");
-            
-            val arr = [1, 2, 3, 4, 5];
-            for n in arr {
-                println(n);
-            }
-            var i = 0;
-            while (i < 5) {
-                println(i);
-                i = i + 1;
-            }
-        }
-        
-    };
-    auto lexer = lex(code, ctx);
-    foreach (tok; lexer) {
-        writeln(ctx.printToken(tok));
-    }
+/**
+ * Check a char is an operator (and not string/char quotes)
+ */
+bool isOp(dchar c) {
+    return c == '+' || c == '-' || c == '*' || c == '/' 
+        || c == '.' || c == '=' || c == ',' || c == '!'
+            || c == '<' || c == '>'
+            || c == '{' || c == '}' || c == '(' || c == ')' || c == '[' || c == ']'
+            ;
 }
+
 
