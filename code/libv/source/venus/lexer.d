@@ -60,8 +60,9 @@ unittest {
     };
     auto lexer = lex(code, ctx);
     foreach (tok; lexer) {
-        //writeln(ctx.getTokenString(tok));
+        writeln(ctx.getTokenString(tok));
     }
+    writeln("testing lexer end.");
 }
 
 alias isUniAlpha = std.uni.isAlpha;

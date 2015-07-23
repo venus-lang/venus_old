@@ -8,23 +8,36 @@ import venus.ast;
 
 
 struct Parser(TokenRange) {
-private:
+    Node n;
     TokenRange tokens;
     Context ctx;
-public:
-    this(TokenRange tokens, Context ctx) {
-        this.tokens = tokens;
-        this.ctx = ctx;
+
+    @property auto front() inout {
+        return n;
     }
     
-    auto parse() {
+    void popFront() {
+        n = next();
+    }
+    
+    @property auto save() inout {
+        return inout(Parser)(n, tokens, ctx);
+    }
+    
+    @property bool empty() const {
+        return tokens.empty();
+    }
+    
+    Node next() {
+        Location loc; // empty
         if (tokens.empty()) {
-            return;
+            return new Node(loc);
         }
 
         Token front = tokens.front;
         writeln(ctx.getTokenString(front));
         tokens.popFront();
+
         while (front.type != TokenType.End) {
             writeln("parsing:", ctx.getTokenString(front));
             with (TokenType) switch (front.type)  {
@@ -34,18 +47,17 @@ public:
                     break;
                 case Import:
                     writeln("Got Import");
-                    parseImport();
-                    break;
+                    return parseImport();
                 default:
                     writeln("Unkown Token:", ctx.getTokenString(front));
-                    break;
+                    return new Node(front.loc);
             }
-            front = next();
+            front = nextTok();
         }
-        return;
+        return new Node(loc);
     }
 
-    Token next() {
+    Token nextTok() {
         tokens.popFront();
         if (!tokens.empty()) {
             return tokens.front;
@@ -57,15 +69,17 @@ public:
         }
     }
 
-    Token parseImport() {
-        Token front = next(); // pop 'import'
-        return front;
+    ImportDeclaration parseImport() {
+        Token front = nextTok(); // pop 'import'
+        Name[][] modules;
+        return new ImportDeclaration(front.loc, modules);
     }
 }
 
 auto parse(TokenRange)(TokenRange tokens, Context ctx) if (isForwardRange!TokenRange) {
-    auto p = Parser!TokenRange(tokens, ctx);
-    p.parse();
+    Node n;
+    auto p = Parser!TokenRange(n, tokens, ctx);
+    return p;
 }
 
 unittest {
@@ -76,9 +90,15 @@ unittest {
         /*
          * This is multiline comment and should be ignored by the compiler
          */
-        import std.io
+        import std.io;
             
     };
     writeln("Parsing:");
-    code.lex(ctx).parse(ctx);
+    auto parser = code.lex(ctx).parse(ctx);
+
+    /**
+    foreach (n; parser) {
+
+    }
+*/
 }

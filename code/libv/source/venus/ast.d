@@ -8,3 +8,18 @@ class Node {
         this.loc = loc;
     }
 }
+
+class Declaration : Node {
+    this(Location loc) {
+        super(loc);
+    }
+}
+
+class ImportDeclaration : Declaration {
+    Name[][] modules;
+
+    this(Location loc, Name[][] modules) {
+        super(loc);
+        this.modules = modules;
+    }
+}
