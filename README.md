@@ -64,7 +64,7 @@ And hopefully when I finish the learning, I could come up with a prototype langu
 #### [Functions](docs/reference/functions.md)
 #### [Modules](docs/reference/modules.md)
 #### [Types](docs/reference/types.md)
-#### [Macros](docs/reference/macros.md)
+#### [Macros](docs/reference/macro.md)
 
 
 
