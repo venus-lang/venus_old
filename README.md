@@ -30,7 +30,10 @@ Venus is influenced by many languages:
 - [D](https://dlang.org/) - Venus is actually a 'fork' of D (originally named Mars language), so many of the features comes from D. The language will be implemented in D.
 - [Python](https://python.org/) - My main goal for Venus was to design a static and native version of Python. I learned many things from Python's library API, docs and ipython repl.
 - [Kotlin](https://kotlin-lang.org/) - I borrowed many syntax from kotlin. I was a fan of kotlin but not such fan of JVM, I hope kotlin would come native too. The first draft of the reference docs is based on kotlin's docs because I once translated them to Chinese and was very familiar with it.
-- Other languages including C/C++, Go, Clojure, Scala, Rust and Javascript. See the [design](docs/reference/design.md) section in the reference
+- [Rust](https://rust-lang.org/) - For its memory model and Traits.
+- [Go](https://golang.org/) - For its concurrency model.
+
+- Other languages including C/C++, Clojure, Scala, and Javascript. See the [design](docs/reference/design.md) section in the reference
 
 # Why a new language?
 
@@ -61,6 +64,7 @@ And hopefully when I finish the learning, I could come up with a prototype langu
 #### [Functions](docs/reference/functions.md)
 #### [Modules](docs/reference/modules.md)
 #### [Types](docs/reference/types.md)
+#### [Macros](docs/reference/macros.md)
 
 
 
