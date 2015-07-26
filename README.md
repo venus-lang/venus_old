@@ -19,6 +19,7 @@ The Venus Programming Language is a C family language that aims to be:
 - **Safe**: Memory safe, RAII and RefCount by default, with occasional thread local GC if you want. Null pointers are also dealt with in the language and you might never see an NPE again.
 - **Concurrent**: Fiber, channel, coroutines. Even the language itself will be concurrent.
 - **Extensible**: With macros, you can define your own syntax. We'll provide a mechanism to promote popular personal defined syntax into the language. The same machanism will also help extend the std library.
+- **Interactive**: The language itself is interactive, you can talk to the compiler in the language with compile-time hooks. And with REPL, you can also do interactive programming.
 - **Interoperable**: need to be able to talk with C and Javascript. C++/D support are also in consideration.
 - **Portable**: Linux, MacOS, Windows. Major target is Ubuntu.
 - **Fullstack**: Backend (server), Frontend (dom or even css manipulation), MiddleWare, Shell, and Mobile. All enabled.
