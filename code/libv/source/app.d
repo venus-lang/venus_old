@@ -1,5 +1,6 @@
 import std.stdio;
 import venus.lexer;
+import venus.context;
 import std.range;
 
 void main()

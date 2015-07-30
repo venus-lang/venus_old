@@ -261,15 +261,21 @@ private: // lex parts
             name ~= c;
             c = r.front;
         }
-        while (c.isOp) {
-            name ~= c;
-            c = nextChar();
+        // try with two chars for '<=', '>=', etc
+        if (r.front.isOp) {
+            name ~= r.front;
         }
-        if (auto tokType = name in getOperatorsMap()) {
+        if (auto tokType = name in OperatorsMap) {
             tok.type = *tokType;
-        } else {
-            writeln("Unknown operator:", name);
-            assert("0", "Lex Error");
+            if (r.front.isOp) c = nextChar();
+        } else { // if two chars not match, fall back to one char operator
+            name = name[0..$-1];
+            if (auto tokType = name in OperatorsMap) {
+                tok.type = *tokType;
+            } else {
+                writeln("unknown token:", name);
+                assert(0, "Lex Error");
+            }
         }
         tok.name = context.getName(name);
         return tok;
