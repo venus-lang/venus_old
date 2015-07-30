@@ -235,7 +235,7 @@ private: // lex parts
             name ~= c;
             c = nextChar();
         }
-        
+
         tok.name = context.getName(name);
         if (auto tokType = name in KeywordsMap) {
             tok.type = *tokType;

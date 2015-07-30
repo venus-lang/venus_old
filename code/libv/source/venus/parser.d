@@ -7,6 +7,7 @@ import venus.lexer;
 import venus.ast;
 
 
+
 struct Parser(TokenRange) {
     Node n;
     TokenRange tokens;
@@ -36,10 +37,10 @@ struct Parser(TokenRange) {
 
         Token front = tokens.front;
         writeln(ctx.getTokenString(front));
-        tokens.popFront();
+        front = nextTok();
 
         while (front.type != TokenType.End) {
-            writeln("parsing:", ctx.getTokenString(front));
+            writeln("check token:", ctx.getTokenString(front));
             with (TokenType) switch (front.type)  {
                 case Begin:
                     break;
@@ -69,9 +70,37 @@ struct Parser(TokenRange) {
         }
     }
 
+    void match(TokenType type) {
+        auto token = tokens.front;
+        
+        if(token.type != type) {
+            import venus.exception;
+            import std.conv, std.string;
+            
+            auto error = format("expected '%s', got '%s'.", to!string(type), to!string(token.type));
+            
+            // throw new CompileException(token.location, error);
+            Location loc;
+            throw new CompileException(loc, error);
+        }
+        
+        tokens.popFront();
+    }
+
+    auto parseModuleName() {
+        auto mod = [tokens.front.name];
+        match(TokenType.Identifier);
+        while (tokens.front.type == TokenType.Dot) {
+            tokens.popFront();
+            mod ~= tokens.front.name;
+            match(TokenType.Identifier);
+        }
+        return mod;
+    }
+
     ImportDeclaration parseImport() {
         Token front = nextTok(); // pop 'import'
-        Name[][] modules;
+        Name[][] modules = [parseModuleName()];
         return new ImportDeclaration(front.loc, modules);
     }
 }
@@ -84,21 +113,16 @@ auto parse(TokenRange)(TokenRange tokens, Context ctx) if (isForwardRange!TokenR
 
 unittest {
 
-    Context ctx = new Context();
-    string code = q{
-        // one-line comment
-        /*
-         * This is multiline comment and should be ignored by the compiler
-         */
-        import std.io;
-            
-    };
-    writeln("Parsing:");
-    auto parser = code.lex(ctx).parse(ctx);
+    void testParse(string code) {
+        Context ctx = new Context();
+        auto parser = code.lex(ctx).parse(ctx);
 
-    /**
-    foreach (n; parser) {
-
+        import std.array;
+        foreach (node; parser) {
+    //        writeln(node); 
+        }
     }
-*/
+
+    writeln("Testing parse");
+    testParse("import std.io");
 }
