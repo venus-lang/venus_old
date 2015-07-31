@@ -257,26 +257,37 @@ private: // lex parts
         Token tok;
         string name;
         auto c = f;
-        if (c.isOp) { 
+        if (r.empty()) {
             name ~= c;
-            c = r.front;
-        }
-        // try with two chars for '<=', '>=', etc
-        if (r.front.isOp) {
-            name ~= r.front;
-        }
-        if (auto tokType = name in OperatorsMap) {
-            tok.type = *tokType;
-            if (r.front.isOp) c = nextChar();
-        } else { // if two chars not match, fall back to one char operator
-            name = name[0..$-1];
             if (auto tokType = name in OperatorsMap) {
                 tok.type = *tokType;
-            } else {
+            } else { // if two chars not match, fall back to one char operator
                 writeln("unknown token:", name);
                 assert(0, "Lex Error");
             }
+        } else { // if there are more chars, we need to check the possibility for two char operators like '<=' or '>='
+            if (c.isOp) { 
+                name ~= c;
+                c = r.front;
+            }
+            // try with two chars for '<=', '>=', etc
+            if (!r.empty() && r.front.isOp) {
+                name ~= r.front;
+            }
+            if (auto tokType = name in OperatorsMap) {
+                tok.type = *tokType;
+                if (!r.empty() && r.front.isOp) c = nextChar();
+            } else { // if two chars not match, fall back to one char operator
+                name = name[0..$-1];
+                if (auto tokType = name in OperatorsMap) {
+                    tok.type = *tokType;
+                } else {
+                    writeln("unknown token:", name);
+                    assert(0, "Lex Error");
+                }
+            }
         }
+
         tok.name = context.getName(name);
         return tok;
     }
@@ -327,6 +338,7 @@ private: // lex parts
     }
 
 }
+
 
 auto lex(R)(R r, Context ctx) if (isForwardRange!R) {
 

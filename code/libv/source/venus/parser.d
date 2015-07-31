@@ -13,6 +13,35 @@ struct Parser(TokenRange) {
     TokenRange tokens;
     Context ctx;
 
+    Node next() {
+        Location loc; // empty
+        if (tokens.empty()) {
+            return new Node(loc);
+        }
+
+        Token front = tokens.front;
+        front = nextTok();
+
+        while (front.type != TokenType.End) {
+//            writeln("check token:", ctx.getTokenString(front));
+            with (TokenType) switch (front.type)  {
+                case Begin:
+                    break;
+                case LineSep:
+                    break;
+                case Import:
+                    return parseImport();
+                case Main:
+                    return parseMain();
+                default:
+                    writeln("Unkown Token:", ctx.getTokenString(front));
+                    return new Node(front.loc);
+            }
+            front = nextTok();
+        }
+        return new Node(loc);
+    }
+
     @property auto front() inout {
         return n;
     }
@@ -28,35 +57,6 @@ struct Parser(TokenRange) {
     @property bool empty() const {
         return tokens.empty();
     }
-    
-    Node next() {
-        Location loc; // empty
-        if (tokens.empty()) {
-            return new Node(loc);
-        }
-
-        Token front = tokens.front;
-        writeln(ctx.getTokenString(front));
-        front = nextTok();
-
-        while (front.type != TokenType.End) {
-            writeln("check token:", ctx.getTokenString(front));
-            with (TokenType) switch (front.type)  {
-                case Begin:
-                    break;
-                case LineSep:
-                    break;
-                case Import:
-                    writeln("Got Import");
-                    return parseImport();
-                default:
-                    writeln("Unkown Token:", ctx.getTokenString(front));
-                    return new Node(front.loc);
-            }
-            front = nextTok();
-        }
-        return new Node(loc);
-    }
 
     Token nextTok() {
         tokens.popFront();
@@ -71,6 +71,7 @@ struct Parser(TokenRange) {
     }
 
     void match(TokenType type) {
+    //    writeln("Matching:", type, " with ", ctx.getTokenString(tokens.front));
         auto token = tokens.front;
         
         if(token.type != type) {
@@ -91,7 +92,7 @@ struct Parser(TokenRange) {
         auto mod = [tokens.front.name];
         match(TokenType.Identifier);
         while (tokens.front.type == TokenType.Dot) {
-            tokens.popFront();
+            match(TokenType.Dot);
             mod ~= tokens.front.name;
             match(TokenType.Identifier);
         }
@@ -102,6 +103,22 @@ struct Parser(TokenRange) {
         Token front = nextTok(); // pop 'import'
         Name[][] modules = [parseModuleName()];
         return new ImportDeclaration(front.loc, modules);
+    }
+
+    Block parseBlock() {
+        match(TokenType.BraceBegin);
+        // parse block
+        match(TokenType.BraceEnd);
+        Location loc;
+        return new Block(loc);
+    }
+
+    MainBlock parseMain() {
+        match(TokenType.Main);
+        Block block = parseBlock();
+        // parse body
+        Location loc;
+        return new MainBlock(loc, block);
     }
 }
 
@@ -114,15 +131,25 @@ auto parse(TokenRange)(TokenRange tokens, Context ctx) if (isForwardRange!TokenR
 unittest {
 
     void testParse(string code) {
+        writeln("> Testing parse for: ", code);
         Context ctx = new Context();
         auto parser = code.lex(ctx).parse(ctx);
 
         import std.array;
+        int n = 0;
         foreach (node; parser) {
     //        writeln(node); 
         }
     }
 
-    writeln("Testing parse");
+    // one line import
     testParse("import std.io");
+    // multi import
+    testParse(q{
+            import std.io;
+            import std.net;
+    });
+
+    // main block
+    testParse("main{ }");
 }

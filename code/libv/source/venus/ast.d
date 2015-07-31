@@ -23,3 +23,19 @@ class ImportDeclaration : Declaration {
         this.modules = modules;
     }
 }
+
+class Block : Node {
+
+    this(Location loc) {
+        super(loc);
+    }
+}
+
+class MainBlock : Node {
+    Block block;
+
+    this(Location loc, Block block) {
+        super(loc);
+        this.block = block;
+    }
+}
