@@ -5,16 +5,16 @@
 We define a new function to add two integer numbers together:
 
 ```d
-int add(int a, int b) {
-	return a + b
+fun add(a int, b int) int {
+    return a + b
 }
 ```
 
 This function is trivial, but it shows the standard format of a function definition:
 
 ```d
-ReturnType FunctionName(ParamType param, ParamType param, ....) {
-	FunctionBody
+fun FunctionName(ParamType param, ParamType param, ....) ReturnType {
+    FunctionBody
 }
 ```
 
@@ -51,9 +51,9 @@ In order to hold the pure constraints, parameters passed in are by default not m
 So if you define a pure function, you can not modify the parameter value in the function body:
 
 ```d
-int add(int a, int b) {
-	a = a + 1 // ERROR!: parameter `a` of pure function `add` is readonly!
-	return a + b
+fun add(a int, b int) {
+    a = a + 1 // ERROR!: parameter `a` of pure function `add` is readonly!
+    return a + b
 }
 ```
 
@@ -62,7 +62,7 @@ To make the code more effient, unlike C/C++/D, a parameter is by default a reado
 it is as if you defined the function in this way:
 
 ```d
-int add(ref int a, ref int b) {
+fun add(ref a int, ref b int) int {
 	// ...
 }
 ```
@@ -76,15 +76,15 @@ int add(const int& a, const int& b) pure {
 }
 ```
 
-### Mutating parameter 
+### Mutating parameter
 
 To modify the passed in argument, you need:
 - specify the function `impure`
 - add a `ptr` attribute to the argument
 
 ```d
-impure negate(ptr int num) {
-	num = - num
+impure fun negate(ptr num int) {
+    num = - num
 }
 
 var a = 10
@@ -94,13 +94,13 @@ print(a) // output: -10
 
 ### Copy parameter
 
-In other situations, you might want to copy the passed in argument. 
+In other situations, you might want to copy the passed in argument.
 You can specify thie behavior with `copy` attribute:
 
 ```d
-int add(copy int a, copy int b) {
-	// here both `a` and `b` are a copy of the value
-	// ...
+int add(copy a int, copy b int) {
+    // here both `a` and `b` are a copy of the value
+    // ...
 }
 ```
 
@@ -108,7 +108,7 @@ Copy the passed in argument into a mutable `var` is the default behavior in C++/
 In Venus, we can write that as:
 
 ```d
-impure int add(copy var int a, copy var int b) {
+impure int add(copy var a int, copy var b int) {
 	// ...
 }
 ```
@@ -118,7 +118,7 @@ impure int add(copy var int a, copy var int b) {
 You can specify a default value for parameters. So if the caller omit that parameter when he calls, the default value is used.
 
 ```d
-createWindow(string title, int width=400, int height=300) {
+fun createWindow(title string, width int = 400, height int = 300) {
   // actual code
 }
 
@@ -132,7 +132,7 @@ createWindwo("Hello")
 If a function has many parameters, with similar types, calling it would be very hard to read, for example:
 
 ```d
-createWindow(string title, int width=400, int height=300, int x=0, int y=0, int style=0) {
+fun createWindow(title string, width int=400, height int=300, x int=0, y int=0, style int=0) {
   // ...
 }
 
@@ -153,7 +153,7 @@ With named parameters, we can make the code much readable:
 
 ```d
 createWindow(
-	title="HelloWindow",
+    title="HelloWindow",
     width=400,
     height=300,
     x = 0,
@@ -166,7 +166,7 @@ together with default parameters, we can omit some parameters, and only specify 
 
 ```d
 createWindow(
-	title="",
+    title="",
     style = 5
 )
 ``` 
@@ -178,7 +178,7 @@ If a function returns no meaningful value, we call it void functions.
 you can add `void` as the return type, as C/C++/D does:
 
 ```d
-void sayHello(string message) {
+fun sayHello(message string) void {
    // ...
 }
 ```
@@ -186,7 +186,7 @@ void sayHello(string message) {
 `void` is optional in function definition, so we can say:
 
 ```d
-sayHello(string message) {
+fun sayHello(message string) {
   // ...
 }
 ```
@@ -196,8 +196,8 @@ sayHello(string message) {
 We use `return` to return a value in function body.
 
 ```d
-int add(int a, int b) {
-	return a + b
+fun add(a int, b int) int {
+    return a + b
 }
 ```
 
@@ -205,8 +205,8 @@ By default, the last statement is the return value of a block,
 so we can omit the `return` keyword here
 
 ```d
-int add(int a, int b) {
-	a + b
+fun add(a int, b int) int {
+    a + b
 }
 ```
 
@@ -215,7 +215,7 @@ int add(int a, int b) {
 When the function body has only one expression, you can omit the `{}` braces and use a `=` instead:
 
 ```d
-int add(int a, int b) = a + b
+fun add(a int, b int) = a + b
 ```
 
 ## Function literals (Lambdas)
@@ -229,8 +229,8 @@ NOTE: Functiona literals are also called `lambda`s.
 For example, you might want to do a quick filter with an array to select the even numbers:
 
 ```d
-bool isEven(int num) {
-	return num % 2 == 0
+fun isEven(num int) bool {
+    return num % 2 == 0
 }
 
 val arr = [1, 2, 3, 4, 5]
@@ -255,13 +255,13 @@ So the lambda `x => x % 2 == 0` has a parameter `x`, its type is inferred by `ar
 Without type inference, you might need to write a more verbose form:
 
 ```d
-arr.filter ( bool(int x) => x % 2 == 0 )
+arr.filter ( (x int) bool => x % 2 == 0 )
 ```
 
 Because in most cases, when you want to use lambdas, you only want one paremeter, so we provide an even simpler form:
 
 ```d
-arr.filter ( it % 2 == 0 ) 
+arr.filter ( it % 2 == 0 )
 ```
 
 `it` is a new key word that represent the sole parameter in the lambda.
@@ -351,24 +351,23 @@ To make all the above things possible, Venus provides a compiler rule for callin
 That is, if we define a function:
 
 ```d
-int toInt(string s) {
-	int res = 0
-	for (ch in s) {
-    	if (ch.isDigit) {
-        	int n = ch.toInt  // assume we already have this method
-            res = res*10 + n
+fun string.toInt(s this) int {
+    var res = 0
+    for (ch in s) {
+        if (ch.isDigit) {
+            int n = ch.toInt  // assume we already have this method
+                res = res*10 + n
         }
-    	if (!ch.isDigit) { // if there is a char that is not number, the string is not a valid number format, so we return 0 as the default value
-        	return 0
+        if (!ch.isDigit) { // if there is a char that is not number, the string is not a valid number format, so we return 0 as the default value
+            return 0
         }
-    } 
+    }
+    return res
 }
 
-val s = "125" 
+val s = "125"
 // now we can call toInt as if it is a method of string
 val n = s.toInt() // n == 125
 ```
-
-This is called Unified Function Calling Syntax (UFCS) in D. And is a very much liked feature of the language.
 
 Actually, you might have guessed, the "methods" we called for array, are actually all free functions that has array as the first parameter in the standard library.

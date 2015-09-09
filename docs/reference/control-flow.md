@@ -9,13 +9,13 @@ In venus, if-else statement is also an expression, so it returns a value that yo
 ```d
 val a = 1
 val b = 2
-val int c = if (a > b) { return b } else { return a }
+val c int = if (a > b) { return b } else { return a }
 
 // you can omit braces because each block has only one statement
-val int c = if (a > b} return b else return a
+val c int = if (a > b} return b else return a
 
 // and you can omit the `return` keyword because it is the last expression of its block
-val int c = if (a > b) b else a
+val c int = if (a > b) b else a
 ```
 
 Traditional usage is also ok:
@@ -26,9 +26,9 @@ val b = 2
 
 var c = 0
 if (a > b)
-	c = a
+    c = a
 else
-	c = b
+    c = b
 ```
 
 ## for loop
@@ -39,7 +39,7 @@ use for with `in` operator to loop a sequence:
 
 ```d
 for (item in collection) {
-	print(item)
+    print(item)
 }
 
 // one-line statement can omit the braces, also, the parentheses can also be omitted
@@ -91,33 +91,4 @@ for (n in [1, 2, 3]) {
 // shorter form
 for n in [1, 2, 3] print(n) mid print(',')
 ```
-
-## While loops
-
-There are two types of while loops:
-
-- while loop do a test before each loop:
-```d
-x = 0 
-while (x < 10) {
-	x = x + 1 
-}
-```
-- `do-while` loop make the test after each loop:
-```d
-do {
-	val x = readLine()
-} while (x != EOF)
-```
-- `while-mid` loop will do some thing between each loop:
-```d
-while (val x = readLine; x != EOF) {
-   puts(line)
-} mid {
-   puts('\n')
-}
-```
-
-with `mid` block to print the seperators, you will not have the unnecessary trailing '\n'
-
 

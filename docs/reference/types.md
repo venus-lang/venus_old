@@ -18,9 +18,9 @@ You can make your own custom types by defining a new `type`.
 
 ```d
 type Node {
-	int id
-	int depth
-	string name
+    id int
+    depth int
+    name string
 }
 ```
 
@@ -93,16 +93,16 @@ Define a function inside a type with name `create` to override the default creat
 
 ```d
 type Node {
-	int id
-	int depth
-	string name
+    id int
+    depth int
+    name string
 
-	// Your own creator
-	create(int id, int depth, string name) {
-		this.id = id
-		this.depth = depth
-		this.name = "MyOwn" + name // a little twist ...
-	}
+    // Your own creator
+    fun create(id int, depth int, name string) {
+        this.id = id
+        this.depth = depth
+        this.name = "MyOwn" + name // a little twist ...
+    }
 
 }
 
@@ -127,37 +127,37 @@ To release resources on destruction, define a `destruct` method in the type:
 ```d
 import std.io
 type Text {
-	string path
-	private File file
+    path string
+    private file File
 
-	create(string path) {
-		this.path = path
-		this.file = open(file) // open the file resource
-	}
+    create(path string) {
+        this.path = path
+        this.file = open(file) // open the file resource
+    }
 
-	destruct() {
-		this.file.close() // release it
-	}
+    destroy() {
+        this.file.close() // release it
+    }
 }
 ```
 
-## Mutable types 
+## Mutable types
 
 Be default, Types in Venus are immutable. To make a type with mutable fields as in traditional C++/D, you must use `var` on the type and all variable fields:
 
 ```d
 import std.count
 var type Sum {
-	int id  // immutable
-	var int sum  // mutable
+    id int // immutable
+    var sum int // mutable
 
-	create() {
-		id = nextId[Sum, int]()
-	}
+    fun create() {
+        id = nextId[Sum, int]()
+    }
 
-	add(int b) {
-		sum += b
-	}
+    fun add(b int) void {
+        sum += b
+    }
 }
 
 var s = Sum()
@@ -176,9 +176,9 @@ For these situations, Venus provides `Builders` to help you build your object at
 
 ```d
 type Node {
-	int id
-	int depth
-	string name
+    id int
+    depth int
+    name string
 }
 
 // instead of calling `create`, you can call `builder`:
@@ -197,14 +197,14 @@ val node = builder.create()
 // using `with` block, you can make things simpler:
 
 val node = with(Node.builder) {
-	id = 15
-	depth = 2
-	// do some things at your pace
-	print("I'm gonna have some coffee..")
+    id = 15
+    depth = 2
+    // do some things at your pace
+    print("I'm gonna have some coffee..")
 
-	name = "New Name"
-	// ok, done
-	create()
+    name = "New Name"
+    // ok, done
+    create()
 }
 ```
 
@@ -222,22 +222,21 @@ we can make a composite of other types using `has` operator in a type definition
 
 ```d
 type Wings {
-	public int length
-	
-	int fly() {
-		println("Flying up high")
-		return 5 // meters
-	}
+    public length int
+    fun fly() int {
+        println("Flying up high")
+        return 5 // meters
+    }
 }
 
 type Bird {
-	has Wings wings
-	string name
+    has wings Wings
+    name string
 
-	create(string name, int wingLength) {
-		this.name = name
-		this.wings = Wings(wingLength)
-	}
+    fun create(name string, wingLength int) {
+        this.name = name
+        this.wings = Wings(wingLength)
+    }
 }
 
 val chuck = Bird("chuck", 5)
@@ -258,7 +257,7 @@ A type can have many parts:
 
 ```d
 type Bird with Wings, Legs, Heart {
-	//...
+    //...
 }
 ```
 
@@ -271,7 +270,7 @@ We call it `is-a` relationship in Object Oriented jargon.
 
 ```
 type Base {
-	int id
+    id int
 }
 
 type Sub : Base {
@@ -294,16 +293,16 @@ When you define a subtype that inherit from a base type, you can override the be
 
 ```d
 type Base {
-	virtual void run() {
-		println("run base")
-	}
+    virtual fun run() void {
+        println("run base")
+    }
 }
 
 type Derived : Base {
-	override void run() {
-		super.run()
-		println("Run Derived")
-	}
+    override fun run() void {
+        super.run()
+        println("Run Derived")
+    }
 }
 
 val d = Derived()
@@ -326,13 +325,13 @@ Interface is a abstract contract that defines what to do. It is usually consiste
 
 ```d
 interface Runnable {
-	void run()
+    fun run() void
 }
 
 type Human: Runnable {
-	void run() {
-		print("I'm a running guy...")
-	}
+    fun run() void {
+        print("I'm a running guy...")
+    }
 }
 ```
 
@@ -356,8 +355,8 @@ For this, Venus provide a special kind of type: data type:
 
 ```d
 data Point {
-	int x  // these fields are public by default, unlike types
-	int y
+    x int  // these fields are public by default, unlike types
+    y int
 }
 
 val p = Point(x=1, y=2)

@@ -5,12 +5,12 @@ A source file may start with a module declaration:
 ```d
 module my.hello_module
 
-hello() {
-	print("hello");
+fun hello() {
+    print("hello");
 }
 
 type MyType { 
-	// ...
+    // ...
 }
 ```
 
@@ -24,16 +24,16 @@ With module blocks, we can declare multiple modules in one file
 
 ```d
 module my.hello_module {
-	hello() {
-		// ...
-	}
-	// ...
+    fun hello() {
+        // ...
+    }
+    // ...
 }
 
 module my.other_module {
-	hello() { // we can have same names in different modules
-	}
-	// ...
+    fun hello() { // we can have same names in different modules
+    }
+    // ...
 }
 ```
 
@@ -41,16 +41,16 @@ And even with hierarchies to declare nested modules
 
 ```d
 module my {
-	module hello_module {
-		hello() {
-			// ...
-		}
-		module tree {
-			type tree {
-				// ...
-			}
-		}
-	}
+    module hello_module {
+        fun hello() {
+            // ...
+        }
+        module tree {
+            type tree {
+                // ...
+            }
+        }
+    }
 }
 ```
 
@@ -63,8 +63,8 @@ The Venus standard libraries are contained in module `std`
 import std.io // imports all symbols from module std.io
 
 main {
-	println("Hello") // println is actually std.io.println(), after import, we can use the simple name instead of full name
-	std.io.println("hello") // full name is also OK.
+    println("Hello") // println is actually std.io.println(), after import, we can use the simple name instead of full name
+    std.io.println("hello") // full name is also OK.
 }
 ```
 
@@ -75,12 +75,12 @@ We can also put the `import` statement in other places to give more control:
 
 ```d
 main {
-	import std.io  // we only import std.io in `main`
-	println("Hello")
+    import std.io  // we only import std.io in `main`
+    println("Hello")
 }
 
 hello(string name) {
-	println(name) // ERROR! println is not imported!
+    println(name) // ERROR! println is not imported!
 }
 ```
 
@@ -111,7 +111,7 @@ we can use:
 import std.io { println: prtln, File }
 
 main {
-	prtln("Hello!") // prtln is an alias of std.io.println
+    prtln("Hello!") // prtln is an alias of std.io.println
 }
 ```
 
@@ -125,20 +125,19 @@ Symbols defined in a module are visible only if they are public:
 import std.io
 
 module my.hello {
-	public hello {
-		saySomething()  // calling functions in the same module is OK
-		println("hello")
-	}
+    public type hello {
+        saySomething()  // calling functions in the same module is OK
+        println("hello")
+    }
 
-	saySomething {
-		println("hehehe...")
-	}
+    saySomething {
+        println("hehehe...")
+    }
 }
 
 main {
-	import my.hello
-	hello("world!") // ok, because `hello` is declared public
-	saySomething() // ERORR! `saySomething()` is not visible
+    import my.hello
+    hello("world!") // ok, because `hello` is declared public
+    saySomething() // ERORR! `saySomething()` is not visible
 }
 ```
-

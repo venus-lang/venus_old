@@ -29,7 +29,7 @@ you can write numbers in the code so that the compiler gets its type directly:
 
 ```d
 val a = 123 // default type: int
-val uint b = 123 // declare it is an uint
+val b uint = 123 // declare it is an uint
 val c = 1000L // long integers tails with a capital 'L'
 val d = 0x1F // hex numbers starts with '0x'
 val big_number = 1_000_000_000 // for long numbers, you can add '_' anywhere to make it clearer
@@ -47,12 +47,12 @@ val i = 0.12f // floats
 Implicit conversions are allowed only when there is no precision loss, otherwise you have to explicitly convert it.
 
 ```d
-val short a = 123 
-val int b = a // OK, implicit conversion with no loss
-val byte c = b // Error! Might lose precision
+val a short = 123 
+val b int = a // OK, implicit conversion with no loss
+val c byte = b // Error! Might lose precision
 
 import std.conv  // explicit conversion functions are defined in std.conv module
-val byte d = a.to!byte // OK, explicit conversion
+val d byte = a.to!byte // OK, explicit conversion
 ```
 
 ## Booleans
@@ -60,8 +60,8 @@ val byte d = a.to!byte // OK, explicit conversion
 Boolean type has two values : `true` and `false`. In memory it is stored as one bit, with `true==1` and `false==0`.
 
 ```d
-val bool a = true
-val bool b = false
+val a bool = true
+val b bool = false
 assert(bool.init == false) // default value of bool is false
 ```
 
@@ -69,12 +69,12 @@ Numbers can convert to boolean type implicitly because there would be no precisi
 Boolean can convert to number types with true => 1 and false => 0.
 
 ```d
-val int a = 100
-val bool b = a // b is now true
-val int c = 0
-val bool d = c // c is now false
-val int e = d // e is now 0
-val int f = b // f is now 1, NOTE: not 100!
+val a int = 100
+val b bool = a // b is now true
+val c int = 0
+val d bool = c // c is now false
+val e int = d // e is now 0
+val f int = b // f is now 1, NOTE: not 100!
 ```
 
 ## Arrays and other list-like containers
@@ -109,7 +109,7 @@ for e in elems {
   print(e)
 }
 
-val array arr = elems // tuple are implicitly convertable to array so you can use it just like it is an array.
+val arr array[int] = elems // tuple are implicitly convertable to array so you can use it just like it is an array.
 
 val pair = (1, "b") // type: std.tuple[int, string]
 
@@ -129,24 +129,23 @@ Strings are acutally array of characters.
 Character is also a basic type, which has the same number of bits as a byte.
 
 ```d
-val char c = 'a' // 'a' is an ascii character, it's integer value is 97
-val uint n = c // n == 97
+val c char = 'a' // 'a' is an ascii character, it's integer value is 97
+val n uint = c // n == 97
 
 // single line string literals are quoted with `"` or `'`
-val string s = "abc" // string is actually an array('a', 'b', 'c')
-val string s1 = 'xyz' // another way to quote strings, but are only used when using `"` is cumbersome because we have `"` in the string
+val  s string = "abc" // string is actually an array('a', 'b', 'c')
+val  s1 string = 'xyz' // another way to quote strings, but are only used when using `"` is cumbersome because we have `"` in the string
 
-val string s2 = "a\"b\"c" // `"` in the string content need to be escaped with `\"`
-val string s3 = 'a"b"c' // here we use `'` to make things easier
-val inferredChar = 'A' // type: char.  A character literal quoted with `'` is infered as char, unless we specify the type string, it will implicitly convert
-val string convertedStr = 'B' // type: string, 'B' is a char, but it is implicitly converted to a string
+val s2 string = "a\"b\"c" // `"` in the string content need to be escaped with `\"`
+val s3 string = 'a"b"c' // here we use `'` to make things easier
+val c2 = 'A' // type: char.  A character literal quoted with `'` is infered as char
 
 
 // multiline line string literals are quoted with `"""`
 val string t = """
-	good morning
-	sunshine!
-	"quoting is also ok here"
+    good morning
+    sunshine!
+    "quoting is also ok here"
 """
 
 // for large text that may still contain `"""`, we also provide `[=[`, `]=]`, `[==[`, `]==]`, `[===[`, `]===]` and the like.
@@ -183,11 +182,11 @@ dict literals are in the form of `{ key : value }`
 
 ```d
 // dict literals default to hash dict
-val dict ages = {
-	"Ann" : 12,  
-	Ben : 20, // for symplicity, string keys can omit the `"` quote if it has no white space.
-	Colt : "hello", // leaving a ',' at the last pair is not an error because this will make it very easy to modify dict literals
-}  
+val ages dict = {
+    "Ann" : 12,
+    Ben : 20, // for symplicity, string keys can omit the `"` quote if it has no white space.
+    Colt : "hello", // leaving a ',' at the last pair is not an error because this will make it very easy to modify dict literals
+}
 
 ```
 
@@ -196,16 +195,16 @@ Because all the keys are of type `string`, and values are of type `int` and `str
 ```d
 // You can also specify the type of the dict
 var scores = tree {
-	15 : "low",
-	60 : "ok",
-	98 : "good"
+    15 : "low",
+    60 : "ok",
+    98 : "good"
 }
 
 // or even with the types of elements
 var ids = hash[int, string] {
-	1 : "Ann",
-	2 : "Ben",
-	3 : "Colt"
+    1 : "Ann",
+    2 : "Ben",
+    3 : "Colt"
 }
 
 ```
@@ -214,9 +213,9 @@ The apply operator `()` is used to look an item up:
 
 ```d
 var ids = hash[int, string] {
-	1 : "Ann",
-	2 : "Ben",
-	3 : "Colt"
+    1 : "Ann",
+    2 : "Ben",
+    3 : "Colt"
 }
 
 val ann = ids(1)
@@ -242,12 +241,11 @@ See [dicts](dicts.md).
 With array and dict literals, Venus support JSON syntax directly in the language
 
 ```d
-var json = [{
-	"ids" : [1, 2, 3, 4, 5],
-	"names" : {
-		"James": ["LeBron", "Harden"],
-		"Paul" : ["Pierce", "Chris"]
-	}
+var people json = [{
+    "ids" : [1, 2, 3, 4, 5],
+    "names" : {
+        "James": ["LeBron", "Harden"],
+        "Paul" : ["Pierce", "Chris"]
+    }
 }]
-// type: array[any]
 ```
