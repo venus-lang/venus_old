@@ -88,6 +88,12 @@ struct Parser(TokenRange) {
         tokens.popFront();
     }
 
+    bool isNext(TokenType type) {
+
+        import std.conv: to;
+        return !tokens.empty() && tokens.front.type == type;
+    }
+
     auto parseModuleName() {
         auto mod = [tokens.front.name];
         match(TokenType.Identifier);
@@ -105,9 +111,64 @@ struct Parser(TokenRange) {
         return new ImportDeclaration(front.loc, modules);
     }
 
+    IdentifierExpression parseIdentifier() {
+        Location loc;
+        match(TokenType.Identifier);
+        return new IdentifierExpression(loc);
+    }
+
+    StringLiteralExpression parseStringLiteral() {
+        Location loc;
+        match(TokenType.StringLiteral);
+        return new StringLiteralExpression(loc);
+    }
+
+
+    Expression parseExpression() {
+        writeln("parsing..");
+        switch (tokens.front.type) {
+            case TokenType.Identifier:
+                return parseIdentifier();
+            case TokenType.StringLiteral:
+                return parseStringLiteral();
+            default:
+                writeln("Error: Unknown expression:", tokens.front);
+                return null;
+        }
+    }
+
+    Arguments parseArguments() {
+        // TODO: put the arg exps into Argument object
+        Expression e = parseExpression();
+        writeln("Parsed one expression");
+        while (tokens.front.type == TokenType.Comma) {
+            match(TokenType.Comma);
+            parseExpression();
+        }
+        Location loc;
+        return new Arguments(loc);
+    }
+
+    FunctionCall parseFunctionCall() {
+        match(TokenType.Identifier);
+        match(TokenType.ParenBegin);
+        parseArguments();
+        match(TokenType.ParenEnd);
+        Location loc;
+        return new FunctionCall(loc);
+    }
+
+    auto parseStatements() {
+        // TODO: add other statements
+        return parseFunctionCall();
+    }
+
     Block parseBlock() {
         match(TokenType.BraceBegin);
-        // parse block
+        // parse block body
+        if (!isNext(TokenType.BraceEnd)) {
+            parseStatements();
+        }
         match(TokenType.BraceEnd);
         Location loc;
         return new Block(loc);
@@ -115,8 +176,8 @@ struct Parser(TokenRange) {
 
     MainBlock parseMain() {
         match(TokenType.Main);
-        Block block = parseBlock();
         // parse body
+        Block block = parseBlock();
         Location loc;
         return new MainBlock(loc, block);
     }
@@ -150,6 +211,10 @@ unittest {
             import std.net;
     });
 
-    // main block
+    // empty main block
     testParse("main{ }");
+
+
+    // main block with function call
+    testParse(q{ main{println("hello")} });
 }

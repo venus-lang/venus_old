@@ -21,9 +21,9 @@ enum TokenType {
     Identifier, StringLiteral, CharLiteral, IntLiteral, FloatLiteral,
     
     // Keywords
-    
+
     // Object/Type
-    Val, Var, Ptr, Ref,
+    Val, Var, Ptr, Ref, Void,
     
     // Builtin Type
     Bit, Byte, Char, Short, Int, Long, Float, Double,
@@ -50,9 +50,11 @@ enum TokenType {
     Equal, // '=='
     NotEqual, // '!='
     Not, // '!'
+    Colon, // ':'
     
     // Language
-    Def, Import, Extern, LineSep, 
+    Fun,
+    Import, Extern, LineSep, 
     Main, Script, Dynamic, Static,
 }
 
@@ -146,6 +148,7 @@ public {
             "!" : Not,
             "[" : SquareBegin,
             "]" : SquareEnd,
+            ":" : Colon,
         ];
         
     }
@@ -165,6 +168,7 @@ public {
             "long": Long,
             "float": Float,
             "double": Double,
+            "void" : Void,
             // Control flow
             "do": Do,
             "if": If,
@@ -177,10 +181,10 @@ public {
             "return" : Return,
             "main" : Main,
             "for" : For,
-            "def" : Def,
             "script" : Script,
             "dynamic" : Dynamic,
             "static" : Static,
+            "fun": Fun,
         ];
     }
     

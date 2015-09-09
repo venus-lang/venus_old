@@ -17,20 +17,45 @@ unittest {
          */
         import std.io;
             
-        extern double sin(double d);
-        int add(int a, int b) { return a + b }
+        // extern function definition
+        extern sin(d double) double;
+
+        // short function definition
+        fun add(a int, b int) int = a + b
         
-        def double times(double c, double d) { return c * d }
-        
-        script { println("hello"); }
-        
+        // full function definition
+        fun times(c double, d double) double {
+            return c * d
+        }
+
+        // void function
+        fun doSomething() void {
+            a = 1 + 1
+        }
+
+        // function as parameter
+        fun apply(f fun[int, int -> double]) void {
+            f(1, 2)
+        }
+
+        // extention function
+        fun string.reverse() string {
+            string.create(self.data.reverse)
+        }
+
+        // script block
+        script { println("hello") }
+
+        // dynamic block
         dynamic {
             var x = 1;
             println(sin(x));
         }
-        
+
+        // static block
         static { int MAX_INT = int.MAX; }
-        
+
+        // main block
         main {
             println("hello");
             
@@ -41,7 +66,7 @@ unittest {
             4 * 5;
             6 / 7;
             
-            if a > 1 {
+            if (a > 1) {
                 println("a is greater");
             } else
                 println("a is less");
@@ -90,7 +115,7 @@ struct Lexer(R) {
     }
     
     @property bool empty() const {
-        return r.empty() || t.type == TokenType.End;
+        return t.type == TokenType.End;
     }
     
 private:
@@ -121,7 +146,7 @@ private:
                     return lexString();
                 case '\'':
                     return lexChar();
-                case '+', '-', '*', '=', '.', '{', '}', '(', ')', ',', '<', '>', '!', '[', ']': // TODO: use operator map here. What if D has pattern matching...
+                case '+', '-', '*', '=', '.', '{', '}', '(', ')', ',', '<', '>', '!', '[', ']', ':': // TODO: use operator map here. What if D has pattern matching...
                     popChar();
                     return lexOperator(f);
                 default:
@@ -368,6 +393,7 @@ bool isOp(dchar c) {
         || c == '.' || c == '=' || c == ',' || c == '!'
             || c == '<' || c == '>'
             || c == '{' || c == '}' || c == '(' || c == ')' || c == '[' || c == ']'
+            || ':'
             ;
 }
 

@@ -39,3 +39,33 @@ class MainBlock : Node {
         this.block = block;
     }
 }
+
+class FunctionCall : Node {
+    this(Location loc) {
+        super(loc);
+    }
+}
+
+class Arguments : Node {
+    this(Location loc) {
+        super(loc);
+    }
+}
+
+class Expression : Node {
+    this(Location loc) {
+        super(loc);
+    }
+}
+
+class IdentifierExpression: Expression {
+    this(Location loc) {
+        super(loc);
+    }
+}
+
+class StringLiteralExpression: Expression {
+    this(Location loc) {
+        super(loc);
+    }
+}
