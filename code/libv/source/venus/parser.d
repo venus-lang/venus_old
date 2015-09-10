@@ -111,20 +111,20 @@ struct Parser(TokenRange) {
         return new ImportDeclaration(front.loc, modules);
     }
 
-    IdentifierExpression parseIdentifier() {
+    IdentifierExpr parseIdentifier() {
         Location loc;
+        Identifier ident = new Identifier(loc, tokens.front.name);
         match(TokenType.Identifier);
-        return new IdentifierExpression(loc);
+        return new IdentifierExpr(loc, ident);
     }
 
-    StringLiteralExpression parseStringLiteral() {
+    StringLiteralExpr parseStringLiteral() {
         Location loc;
         match(TokenType.StringLiteral);
-        return new StringLiteralExpression(loc);
+        return new StringLiteralExpr(loc, ctx.getTokenName(tokens.front));
     }
 
-
-    Expression parseExpression() {
+    Expr parseExpression() {
         writeln("parsing..");
         switch (tokens.front.type) {
             case TokenType.Identifier:
@@ -137,26 +137,28 @@ struct Parser(TokenRange) {
         }
     }
 
-    Arguments parseArguments() {
-        // TODO: put the arg exps into Argument object
-        Expression e = parseExpression();
+    Expr[] parseArguments() {
+        Expr[] es;
+        Expr e = parseExpression();
+        es ~= e;
         writeln("Parsed one expression");
         while (tokens.front.type == TokenType.Comma) {
             match(TokenType.Comma);
-            parseExpression();
+            es ~= parseExpression();
         }
         Location loc;
-        return new Arguments(loc);
+        return es;
     }
 
-    FunctionCall parseFunctionCall() {
-        match(TokenType.Identifier);
+    CallExpr parseFunctionCall() {
+        IdentifierExpr callee = parseIdentifier();
         match(TokenType.ParenBegin);
-        parseArguments();
+        Expr[] args = parseArguments();
         match(TokenType.ParenEnd);
         Location loc;
-        return new FunctionCall(loc);
+        return new CallExpr(loc, callee, args);
     }
+
 
     auto parseStatements() {
         // TODO: add other statements
@@ -199,7 +201,7 @@ unittest {
         import std.array;
         int n = 0;
         foreach (node; parser) {
-    //        writeln(node); 
+            writeln(node); 
         }
     }
 

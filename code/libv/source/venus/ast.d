@@ -15,6 +15,15 @@ class Declaration : Node {
     }
 }
 
+class Identifier : Node {
+    Name name;
+
+    this(Location loc, Name name) {
+        super(loc);
+        this.name = name;
+    }
+}
+
 class ImportDeclaration : Declaration {
     Name[][] modules;
 
@@ -25,7 +34,6 @@ class ImportDeclaration : Declaration {
 }
 
 class Block : Node {
-
     this(Location loc) {
         super(loc);
     }
@@ -40,32 +48,62 @@ class MainBlock : Node {
     }
 }
 
-class FunctionCall : Node {
+class CallExpr : Expr {
+    Expr callee;
+    Expr[] args;
+    this(Location loc, Expr callee, Expr[] args) {
+        super(loc);
+
+        this.callee = callee;
+        this.args = args;
+    }
+}
+
+class Expr: Node {
     this(Location loc) {
         super(loc);
     }
 }
 
-class Arguments : Node {
-    this(Location loc) {
+enum BinaryOp {
+    Add,
+    Sub,
+    Mul,
+    Div
+}
+
+class BinaryExpr : Expr {
+    Expr lhs;
+    Expr rhs;
+
+    BinaryOp op;
+
+    this(Location loc, BinaryOp op, Expr lhs, Expr rhs) {
         super(loc);
+        this.lhs = lhs;
+        this.rhs = rhs;
+        this.op = op;
     }
 }
 
-class Expression : Node {
-    this(Location loc) {
+class IdentifierExpr: Expr {
+    Identifier identifier;
+
+    this(Location loc, Identifier ident) {
         super(loc);
+        this.identifier = ident;
     }
+
 }
 
-class IdentifierExpression: Expression {
-    this(Location loc) {
+class StringLiteralExpr: Expr {
+    private string value;
+    this(Location loc, string value) {
         super(loc);
+        this.value = value;
     }
-}
 
-class StringLiteralExpression: Expression {
-    this(Location loc) {
-        super(loc);
+    override string toString() {
+        return "'" ~ value ~ "'";
     }
 }

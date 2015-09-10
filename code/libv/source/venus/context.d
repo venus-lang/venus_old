@@ -112,6 +112,10 @@ public:
                 ~ tok.type.to!string.rightJustify(14) ~ ",\t"
                 ~ tok.name.toString(this) ~ "";
     }
+
+    string getTokenName(Token tok) {
+        return tok.name.toString(this);
+    }
     
     void printLookups() {
         writeln("Lookups:", lookups);

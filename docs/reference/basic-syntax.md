@@ -61,7 +61,7 @@ fun printSum(a int, b int) void {
 `void` could be omitted because its the default return type of a function definition:
 
 ```d
-printSum(a int, b int) {
+fun printSum(a int, b int) {
     println(a + b)
 }
 ```
