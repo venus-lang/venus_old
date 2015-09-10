@@ -5,8 +5,8 @@
 ```d
 import std.io
 
-main() {
-	println("Hello World!")
+main {
+    println("Hello World!")
 }
 ```
 
@@ -35,29 +35,11 @@ The code does three things:
 
 so that we can call the `println` function in that module.
 
-### 2. define an entry point of the program with `main()`, in C this would be
+### 2. define an entry point of the program with `main`, in C this would be
 
-```c
-int main() {
-}
-```
+unlike C, using a function `int main() {...}` to define the entry point, Venus directly support the `main` block.
 
-where `int` is the return type of the function, `main` is the name of the function and `()` means this function takes no arguments.
-
-but in Venus, just like in D, the compiler (and runtime) will handle the process return code so that we don't need to manage it, so we can just say
-
-```d
-void main() {
-}
-```
-
-and in Venus, `void` is a default situation if you omit the return type of a function, so you can just type
-
-```d
-main() {
-  // code here	...
-}
-```
+Code in main block will be the entry point of a program.
 
 ### 3. call the `println(...)` function to print a message to the console. 
 

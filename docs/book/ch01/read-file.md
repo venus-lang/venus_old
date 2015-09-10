@@ -6,10 +6,10 @@
 import std.io
 
 main() {
-	val file = open('message.txt') // open a file with name 'message.txt' and store it to a value object named 'file'
-	for line in file { // read the file line by line. for each line we store the value named 'line'
-		println(line)  // print the `line` value. Note: we need `println` here instead of `print` because the new-line char is omitted during reading for portable purposes
-	}
+    val file = open('message.txt') // open a file with name 'message.txt' and store it to a value object named 'file'
+    for line in file { // read the file line by line. for each line we store the value named 'line'
+        println(line)  // print the `line` value. Note: we need `println` here instead of `print` because the new-line char is omitted during reading for portable purposes
+    }
 }
 ```
 
@@ -27,17 +27,12 @@ Here `file` is a value object. the `open` function returns an object of type `st
 The compiler infers the return type of `open` so you don't have to declare the type, as in C. But if you want to be strict, you can declare it by yourself:
 
 ```d
-val File file = open('message.txt')
+val file File = open('message.txt')
 ```
 Here you declare that value `file` must be of type `File`(which is imported from std module, so actually it is `st.File`), so if you assigned it with another type, the comopiler will complain:
 
 ```d
-val File file = 1 + 2; // Error: 'file' of type 'std.File' cannot be assigned with a value of type 'int'.
-```
-
-and because `val` is the default kind of objects in Venus, you can also omit it:
-```d
-File file = open('message.txt')
+val file File = 1 + 2; // Error: 'file' of type 'std.File' cannot be assigned with a value of type 'int'.
 ```
 
 ## 2. for loop

@@ -6,11 +6,11 @@
 import std.net
 
 main() {
-	val server = createWebServer (
-		host='localhost', // host of the webserver, when you open an online service, use 'www.example.com' and the like.
-		root='.', // root directory of the webserver, where your static html files are located. default to current directory('.').
-		port=8080 ) // port, default to 80
-	server.start()
+    val server = createWebServer (
+            host='localhost', // host of the webserver, when you open an online service, use 'www.example.com' and the like.
+            root='.', // root directory of the webserver, where your static html files are located. default to current directory('.').
+            port=8080 ) // port, default to 80
+    server.start()
 }
 ```
 
@@ -32,7 +32,7 @@ This feature is the same with Python: you can call a function specifying paramet
 import std.net
 
 main() {
-	createWebServer('localhost').start()
+    createWebServer('localhost').start()
 }
 ```
 

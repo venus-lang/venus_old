@@ -24,11 +24,11 @@ Here is what M1 would look like:
 import std.io // module and import
 
 // extern C function/constant declaration
-extern double sin(double arg)
+extern sin(arg double) double
 extern PI
 
 // define a new function
-double toRadian(int degree) {
+fun toRadian(degree int) double {
     return degree*PI/180
 }
 
