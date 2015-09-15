@@ -36,7 +36,6 @@ Venus is inspired by many languages:
 - [Julia](http://julialang.org/) - For its scientific and ploting libraries.
 - [Go](https://golang.org/) - For its concurrency model and some syntax.
 - [Rust](https://rust-lang.org/) - For its memory model and Traits.
-
 - Other languages including C/C++, Clojure, Scala, and Javascript. See the [design](docs/reference/design.md) section in the reference
 
 # Why a new language?
