@@ -8,11 +8,25 @@ main {
 }
 ```
 
-The Venus Programming Language is a C family language that aims to be:
+The Venus Programming Language is a C family language that aims to be **fast**, **easy** and **extensible**:
 
-- **Fast**. Venus is actually a static typed, focusing on zero overhead abstractions and has strong support for compile time meta programming. You can get a lot done even before the program runs. The compiler supports both JIT and AOT modes, and with incremental builing, its compile time should be very fast.
-- **Easy**. Venus is a good first language. It is designed with teaching in mind, the syntax is simple and balanced. Venus has every element you want as a scripting language. It has a `script` block for daily simple tasks and it has an interactive shell that integrates bash. 
-- **Extensible**. Strong module support. Language expansion with macros.
+#### Fast
+
+- **Runs fast**. it is static typed, native language, backed with LLVM optimisations, focusing on zero overhead abstractions and has strong support for compile time meta programming. You can get a lot done even before the program runs. 
+- **Compiles fast**. The compiler supports both JIT and AOT modes, and with incremental builing, its compile time should be very fast. 
+- **Concurrent and distributed**. Venus is concurrent from bottom up. The language and compiler itself is concurrent and distributed.
+
+#### Easy
+
+- **A good first language**. It is designed with teaching in mind, the syntax is simple and balanced.
+- **Interactive**. Venus has every element you want as a scripting language. It has a `script` block for daily simple tasks and it has an interactive shell that integrates bash.
+- **It just works**. Like python, the standard library should contain most common tools for your daily use with very good documentation.
+
+#### Extensible
+
+- **Strong module support**. A python like module system. 
+- **Builtin builder and module repository**.
+- **Language expansion with macros**.
 
 Venus is influenced by many languages:
 
