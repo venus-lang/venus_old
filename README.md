@@ -30,13 +30,14 @@ The Venus Programming Language is a C family language that aims to be **fast**, 
 
 Venus is inspired by many languages:
 
-- [D](https://dlang.org/) - Venus is actually a 'fork' of D (originally named Mars language), is more like a D3 in my mind, so many of the features comes from D. The compiler is implemented in D.
+- [D](https://dlang.org/) - Venus is actually a 'fork' of D (originally named Mars language), is more like a D3 in my mind, so many of the features comes from D. The compiler is implemented in D, and the language is binary compatible with D.
+- [C](https://en.wikipedia.org/wiki/C_%28programming_language%29) - Venus is designed to be binary compatible with C, and the standard library will be based on libc. C integration is a major feature of the language, so we'll provide tools for calling 3rd party C libraries.
 - [Python](https://python.org/) - My main goal for Venus was to design a static and native version of Python. I learned many things from Python's library API, docs and ipython repl. You might find Venus to be a C flavored python.
 - [Kotlin](https://kotlin-lang.org/) - I borrowed many syntax from kotlin. I was a fan of kotlin but it was limited in  JVM, while I want to go native. The first draft of the reference docs is based on kotlin's docs because I once translated them to Chinese and was very familiar with it.
 - [Julia](http://julialang.org/) - For its scientific and ploting libraries.
 - [Go](https://golang.org/) - For its concurrency model and some syntax.
 - [Rust](https://rust-lang.org/) - For its memory model and Traits.
-- Other languages including C/C++, Clojure, Scala, and Javascript. See the [design](docs/reference/design.md) section in the reference
+- Other languages including C++, Java, Clojure, Scala, and Javascript.
 
 # Why a new language?
 
