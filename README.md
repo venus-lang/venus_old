@@ -18,15 +18,15 @@ The Venus Programming Language is a C family language that aims to be **fast**, 
 
 #### Easy
 
-- **A good first language**. It is designed with teaching in mind, the syntax is simple and balanced.
-- **Interactive**. Venus has every element you want as a scripting language. It has a `script` block for daily simple tasks and it has an interactive shell that integrates bash.
-- **It just works**. Like python, the standard library should contain most common tools for your daily use with very good documentation.
+- **Easy to learn**. Venus is a good first language. It is designed with teaching in mind, the syntax is simple and balanced. Although the syntax is more C flavor, you will find it as simple and elegant as python. Documentation is a key part of the language, so we have integrated docs.
+- **Easy to use**. Venus is interactive, it has a great shell repl that integrates with Bash. With `script` blocks, it has got every element you might need as a scripting language. Like python, the standard library should contain most common tools for your daily use with very good documentation.
+- **Easy to maintain**. Venus directly support unit testing and auto testing. Contract programming like in D is also planned. The code you wrote should be fairly easy to refactor. Venus comes with a builder that could automatically resolve dependencies and manage projects deployments.
 
 #### Extensible
 
-- **Strong module support**. A python like module system. 
-- **Builtin builder and module repository**.
-- **Language expansion with macros**.
+- **Strong module support**. A python like module system with distributed module repository.
+- **Two level language design**. Venus is consisted of two levels: low level C like language, focusing on functional programming; and high level D like language, focusing on meta programming. With a solid core language base, many paradimes such as OO, GC, ARC can be designed on top of it.
+- **Language expansion tools**. We have macros and compiler hooks for making extensions to the language syntax. We will also design a process to incorporate third party extensions into the standard bunle.
 
 Venus is influenced by many languages:
 
