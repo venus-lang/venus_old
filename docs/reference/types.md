@@ -38,11 +38,10 @@ Now to create a new instance of the type 'Node', you can use the apply function 
 val node = Node() // creates a new Node object
 ```
 
-We call this the `create` function for each type, because it creates one object of the type.
-You can also write out the `create` for clarity:
+We call this the `new` function, or a construtor. You can also write out the `new` function name, but that is not encouraged.
 
 ```d
-val node = Node.create() // same as Node()
+val node = Node.new() // same as Node()
 ```
 
 ## Type members
