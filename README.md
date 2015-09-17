@@ -7,9 +7,8 @@ main {
   
   // read a file and count lines
   import std.io: open
-  val f = open("data.txt")
   var n = 0
-  for line in f {
+  for line in open("data.txt") {
     println(line)
     n = n + 1
   }
