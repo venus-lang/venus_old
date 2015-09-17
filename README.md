@@ -1,10 +1,24 @@
 # The Venus Programming Language
 
 ```d
-import std.io
-
 main {
-  println("Hello Venus!")
+  // hello world
+  std.io.println("Hello Venus!")
+  
+  // read a file and count lines
+  import std.io
+  val f = open("data.txt")
+  var n = 0
+  for line in f {
+    println(line)
+    n = n + 1
+  }
+  println("total lines: %n")
+  
+  // simple form
+  import std.io
+  val lines = open("data.txt").count() 
+  println(lines)
 }
 ```
 
