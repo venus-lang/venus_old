@@ -134,7 +134,7 @@ fun compare(a int, b int) int {
 using `if` as an expression:
 
 ```d
-max(a int, b int) int = if (a > b) a else b
+fun max(a int, b int) int = if (a > b) a else b
 ```
 see [if-else](if-else.md)
 
