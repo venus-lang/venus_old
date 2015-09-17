@@ -13,12 +13,12 @@ main {
     println(line)
     n = n + 1
   }
-  println("total lines: %n")
+  println("total lines: $n")
   
   // simple form
   import std.fun: count
   val cnt = open("data.txt").count()
-  println("total lines: %cnt")
+  println("total lines: $cnt")
 }
 ```
 
