@@ -18,9 +18,9 @@ You can make your own custom types by defining a new `type`.
 
 ```d
 type Node {
-    id int
-    depth int
-    name string
+    val id int
+    val depth int
+    val name string
 }
 ```
 
@@ -80,25 +80,24 @@ val n = Node(0, 1, "NodeA")
 val n1 = Node(id=1, depth=1, name="NodeB")
 
 // also with a dict
-val dict = {id: 1, depth: 1, name: "NodeC"}
-val n1 = Node(dict)
+val n2 = Node{id: 1, depth: 1, name: "NodeC"}
 ```
 
 ## Custom Creators
 
-In the above code, the compiler generates default creators for you.
-But if you want to control the initialization process your self, you can define your own creators instead of using the default ones.
+In the above code, the compiler generates default constructor for you.
+But if you want to control the initialization process your self, you can define your own constructor instead of using the default ones.
 
-Define a function inside a type with name `create` to override the default creators:
+Define a function inside a type with name `new` to override the default constructors:
 
 ```d
 type Node {
-    id int
-    depth int
-    name string
+    val id int
+    val depth int
+    val name string
 
-    // Your own creator
-    fun create(id int, depth int, name string) {
+    // Your own constructor
+    fun new(id int, depth int, name string) {
         this.id = id
         this.depth = depth
         this.name = "MyOwn" + name // a little twist ...
@@ -110,7 +109,7 @@ val node = Node(id=0, depth=1, name="Node1")
 print(node.name) // output: MyOwnNode1
 
 // now you can not call the default creator with no parameters:
-val node2 = Node() // ERROR!: creator with paramters () is not defined!
+val node2 = Node() // ERROR!: constructor with empty paramters () was not defined!
 
 ```
 
@@ -127,15 +126,15 @@ To release resources on destruction, define a `destruct` method in the type:
 ```d
 import std.io
 type Text {
-    path string
-    private file File
+    val path string
+    private val file File
 
-    create(path string) {
+    fun new(path string) {
         this.path = path
         this.file = open(file) // open the file resource
     }
 
-    destroy() {
+    fun die() {
         this.file.close() // release it
     }
 }
@@ -148,7 +147,7 @@ Be default, Types in Venus are immutable. To make a type with mutable fields as 
 ```d
 import std.count
 var type Sum {
-    id int // immutable
+    val id int // immutable
     var sum int // mutable
 
     fun create() {
@@ -176,22 +175,21 @@ For these situations, Venus provides `Builders` to help you build your object at
 
 ```d
 type Node {
-    id int
-    depth int
-    name string
+    val id int
+    val depth int
+    val name string
 }
 
 // instead of calling `create`, you can call `builder`:
-
-var builder = Node.builder()
+var b = Node.builder()
 
 // and you can now modify the partially builded object `node` here:
-builder.id = 15
-builder.depth = 2
-builder.name = "New Name"
+b.id = 15
+b.depth = 2
+b.name = "New Name"
 
-// now when you're done building, call `create` to make a new instance
-val node = builder.create()
+// now when you're done building, call `build` to make a new instance
+val node = b.build()
 
 
 // using `with` block, you can make things simpler:
@@ -204,7 +202,7 @@ val node = with(Node.builder) {
 
     name = "New Name"
     // ok, done
-    create()
+    build()
 }
 ```
 
@@ -222,7 +220,7 @@ we can make a composite of other types using `has` operator in a type definition
 
 ```d
 type Wings {
-    public length int
+    public val length int
     fun fly() int {
         println("Flying up high")
         return 5 // meters
@@ -231,10 +229,9 @@ type Wings {
 
 type Bird {
     has wings Wings
-    name string
+    val name string
 
-    fun create(name string, wingLength int) {
-        this.name = name
+    fun new(name string, wingLength int) {
         this.wings = Wings(wingLength)
     }
 }
@@ -242,9 +239,9 @@ type Bird {
 val chuck = Bird("chuck", 5)
 chuck.fly()
 
-assert(chuck.isInstance(Bird)) // true
-assert(chuck.isInstance(Wings)) // false
-assert(chuck.hasInstance(Wings)) // true
+assert(chuck.isInstance!Bird) // true
+assert(chuck.isInstance!Wings) // false
+assert(chuck.hasInstance!Wings) // true
 ```
 
 Here a `Bird` has `Wings`, so it can do anything that `Wings` does--by using its `Wings`--including `fly()`.
@@ -279,8 +276,8 @@ type Sub : Base {
 
 val obj = Sub()
 assert (obj.type == Sub) // true
-assert (obj.isInstance[Sub]) // true
-assert (obj.isInstance[Base]) // true
+assert (obj.isInstance!Sub) // true
+assert (obj.isInstance!Base) // true
 ```
 
 Venus does not support multiple base types, 
@@ -322,9 +319,10 @@ You can call a method of base type in sub type with `super.method()`.
 ## Interfaces
 
 Interface is a abstract contract that defines what to do. It is usually consisted of a set of methods.
+In venus, we use `api` keyword to indicate an interface
 
 ```d
-interface Runnable {
+api Runnable {
     fun run() void
 }
 
@@ -340,7 +338,7 @@ Typically interfaces does not have method implementations, all methods in an int
 You can combine interfaces to make code more readable.
 
 ```d
-interface Humanoid = static { Runnable + Walkable + Talkable + NeedSleep }
+api Humanoid = static { Runnable + Walkable + Talkable + NeedSleep }
 ```
 
 ## Data types
@@ -355,8 +353,8 @@ For this, Venus provide a special kind of type: data type:
 
 ```d
 data Point {
-    x int  // these fields are public by default, unlike types
-    y int
+    val x int  // these fields are public by default, unlike types
+    val y int
 }
 
 val p = Point(x=1, y=2)
