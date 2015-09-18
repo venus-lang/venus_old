@@ -1,8 +1,9 @@
-// define a function and call it, returns 24
+// returns: 24
+// define a function and call it
 fun multiply(a int, b int) int {
     a * b
 }
 
 main {
-    multiply(3, 8)
+    return multiply(3, 8)
 }

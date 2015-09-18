@@ -1,4 +1,5 @@
+// returns 1
 // val
 main {
-    val a = 1
+    return val a = 1
 }

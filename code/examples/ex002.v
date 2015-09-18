@@ -1,4 +1,4 @@
-// returns '1 + 1'
+// returns: 2
 main {
-    1 + 1
+    return 1 + 1
 }
