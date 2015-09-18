@@ -38,7 +38,7 @@ The Venus Programming Language is a C family language that aims to be **fast**, 
 #### Extensible
 
 - **Strong module support**. A python like module system with distributed module repository.
-- **Two level language design**. Venus is consisted of two levels: low level C like language, focusing on functional programming; and high level D like language, focusing on meta programming. With a solid core language base, many paradimes such as OO, GC, ARC can be designed on top of it.
+- **Two level language design**. Venus is consisted of two levels: a low level C like language, focusing on functional programming, is called venus-core, implemented in D; and a high level D like language, focusing on meta programming, is called venus-ext, implemented in venus-core. High level paramdimes like OO, ARC and GC are all implemented on top of venus-core.
 - **Language expansion tools**. We have macros and compiler hooks for making extensions to the language syntax. We will also design a process to incorporate third party extensions into the standard bunle.
 
 Venus is inspired by many languages:
