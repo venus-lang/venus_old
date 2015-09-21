@@ -119,4 +119,47 @@ class IntExpr : Expr {
     }
 }
 
+class ArgExpr: Expr {
+    private IdentifierExpr name;
+    private Name type;
+
+    this(Location loc, IdentifierExpr name, Name type) {
+        super(loc);
+        this.name = name;
+        this.type = type;
+    }
+}
+
+class FunDef: Expr {
+    IdentifierExpr name;
+    Expr[] args;
+    TypeExpr type;
+    Block bodyBlock;
+
+    this(Location loc, IdentifierExpr name, Expr[] args, TypeExpr type, Block bodyBlock) {
+        super(loc);
+        this.name = name;
+        this.args = args;
+        this.type = type;
+        this.bodyBlock = bodyBlock;
+    }
+}
+
+enum Type {
+    Int, 
+    Double,
+    Custom
+}
+
+// TODO: is Type an Expr?
+class TypeExpr : Expr {
+    Type type;
+    Token token;
+
+    this(Location loc, Type type, Token token) {
+        super(loc);
+        this.type = type;
+        this.token = token;
+    }
+}
 

@@ -5,6 +5,7 @@ import std.stdio;
 import venus.context;
 import venus.lexer;
 import venus.ast;
+import venus.exception;
 
 struct Parser(TokenRange) {
     Node n;
@@ -27,6 +28,8 @@ struct Parser(TokenRange) {
                     break;
                 case LineSep:
                     break;
+                case Fun:
+                    return parseFunDef();
                 case Import:
                     return parseImport();
                 case Main:
@@ -90,6 +93,38 @@ struct Parser(TokenRange) {
 
         import std.conv: to;
         return !tokens.empty() && tokens.front.type == type;
+    }
+
+    TypeExpr parseReturnType() {
+        return parseType();
+    }
+
+    TypeExpr parseType() {
+        Token t = tokens.front;
+        nextTok();
+        Location loc;
+        switch (t.type) {
+            case TokenType.Int:
+                return new TypeExpr(loc, Type.Int, t);
+            case TokenType.Double:
+                return new TypeExpr(loc, Type.Double, t);
+            case TokenType.Identifier:
+                return new TypeExpr(loc, Type.Custom, t);
+            default:
+                throw new CompileException(loc, "Unkown type: " ~ ctx.getTokenName(t));
+        }
+    }
+
+    Expr parseFunDef() {
+        match(TokenType.Fun);
+        IdentifierExpr funName = parseIdentifier();
+        match(TokenType.ParenBegin);
+        Expr[] args = parseDefArgs();
+        match(TokenType.ParenEnd);
+        TypeExpr retType = parseReturnType();
+        Block bodyBlock = parseBlock();
+        Location loc;
+        return new FunDef(loc, funName, args, retType, bodyBlock);
     }
 
     auto parseModuleName() {
@@ -164,7 +199,6 @@ struct Parser(TokenRange) {
     }
 
     Expr parseExpression() {
-        writeln("parsing..");
         auto lhs = parsePrimaryExpr();
         if (isNext(TokenType.Plus) || isNext(TokenType.Minus)) {
             return parseBinOp(lhs);
@@ -173,7 +207,7 @@ struct Parser(TokenRange) {
     }
 
     Expr parseBinOp(Expr lhs) {
-        Token tok = nextTok();
+        Token tok = tokens.front;
         BinaryOp op;
         switch (tok.type) {
             case TokenType.Plus:
@@ -192,9 +226,32 @@ struct Parser(TokenRange) {
                 op = BinaryOp.Unknown;
                 break;
         }
+        nextTok();
         Expr rhs = parseExpression();
         Location loc;
         return new BinaryExpr(loc, op, lhs, rhs);
+    }
+
+    ArgExpr parseArg() {
+        IdentifierExpr id = parseIdentifier();
+        Token t = tokens.front;
+        writeln("type:", ctx.getTokenName(t));
+        nextTok();
+        Location loc;
+        return new ArgExpr(loc, id, t.name);
+    }
+
+    Expr[] parseDefArgs() {
+        Expr[] es;
+        Expr e = parseArg();
+        es ~= e;
+        writeln("Parsed one expression");
+        while (tokens.front.type == TokenType.Comma) {
+            match(TokenType.Comma);
+            es ~= parseArg();
+        }
+        Location loc;
+        return es;
     }
 
     Expr[] parseArguments() {
@@ -222,15 +279,13 @@ struct Parser(TokenRange) {
     
     auto parseStatements() {
         Expr[] exprs;
-        /**
-         while (!isNext(TokenType.BraceEnd)) {
-         Expr e = parseExpression();
-         exprs ~= e;
-         }
-         return exprs;
-         **/
-        // TODO: add other statements
-        exprs ~= parseExpression();
+        while (!isNext(TokenType.BraceEnd)) {
+            Expr e = parseExpression();
+            exprs ~= e;
+            if (isNext(TokenType.LineSep)) {
+                nextTok();
+            }
+        }
         return exprs;
     }
 
@@ -271,6 +326,7 @@ unittest {
         import std.array;
         int n = 0;
         foreach (node; parser) {
+            writeln("node");
             writeln(node); 
         }
     }
@@ -295,15 +351,9 @@ unittest {
     
     // function definition
     testParse(q{
-            /*
-             fun add(a int, b int) int {
-             return a + b
-             }
+            import std.io;
+            fun add(a int, b int) int { a + b }
 
-             main {
-             import std.io;
-             println(add(a, b));
-             }
-             */
+            main { println(add(a, b)) }
         });
 }
