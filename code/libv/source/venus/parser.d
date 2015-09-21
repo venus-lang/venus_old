@@ -21,7 +21,7 @@ struct Parser(TokenRange) {
         front = nextTok();
 
         while (front.type != TokenType.End) {
-//            writeln("check token:", ctx.getTokenString(front));
+            //            writeln("check token:", ctx.getTokenString(front));
             with (TokenType) switch (front.type)  {
                 case Begin:
                     break;
@@ -69,7 +69,7 @@ struct Parser(TokenRange) {
     }
 
     void match(TokenType type) {
-    //    writeln("Matching:", type, " with ", ctx.getTokenString(tokens.front));
+        //    writeln("Matching:", type, " with ", ctx.getTokenString(tokens.front));
         auto token = tokens.front;
         
         if(token.type != type) {
@@ -122,17 +122,79 @@ struct Parser(TokenRange) {
         return new StringLiteralExpr(loc, ctx.getTokenName(tokens.front));
     }
 
-    Expr parseExpression() {
-        writeln("parsing..");
+    IntExpr parseIntExpr() {
+        Location loc;
+        match(TokenType.IntLiteral);
+        return new IntExpr(loc, tokens.front.name);
+    }
+
+    Expr parseParenExpr() {
+        match(TokenType.ParenBegin); // eat '('
+        auto expr = parseExpression();
+        Location loc;
+        if (!isNext(TokenType.ParenEnd)) {
+            import venus.exception;
+            throw new CompileException(loc, "expected ')' for paren expr");
+        }
+        return expr;
+    }
+
+    Expr parsePrimaryExpr() {
+
+        writeln("parsing primary expr");
         switch (tokens.front.type) {
             case TokenType.Identifier:
-                return parseIdentifier();
+                IdentifierExpr id = parseIdentifier();
+                if (isNext(TokenType.ParenBegin)) {
+                    CallExpr expr = parseFunctionCall(id);
+                    return expr;
+                } else return id;
             case TokenType.StringLiteral:
                 return parseStringLiteral();
+            case TokenType.IntLiteral:
+                return parseIntExpr();
+            case TokenType.ParenBegin:
+                return parseParenExpr();
             default:
                 writeln("Error: Unknown expression:", tokens.front);
                 return null;
+                
         }
+
+    }
+
+    Expr parseExpression() {
+        writeln("parsing..");
+        auto lhs = parsePrimaryExpr();
+        if (isNext(TokenType.Plus) || isNext(TokenType.Minus)) {
+            return parseBinOp(lhs);
+        }
+        else return lhs;
+    }
+
+    Expr parseBinOp(Expr lhs) {
+        Token tok = nextTok();
+        BinaryOp op;
+        switch (tok.type) {
+            case TokenType.Plus:
+                op = BinaryOp.Add;
+                break;
+            case TokenType.Minus:
+                op = BinaryOp.Sub;
+                break;
+            case TokenType.Star:
+                op = BinaryOp.Mul;
+                break;
+            case TokenType.Slash:
+                op = BinaryOp.Div;
+                break;
+            default:
+                op = BinaryOp.Unknown;
+                break;
+        }
+        Expr rhs = parseExpression();
+        Location loc;
+        return new BinaryExpr(loc, op, lhs, rhs);
     }
 
     Expr[] parseArguments() {
@@ -148,8 +210,8 @@ struct Parser(TokenRange) {
         return es;
     }
 
-    CallExpr parseFunctionCall() {
-        IdentifierExpr callee = parseIdentifier();
+    CallExpr parseFunctionCall(IdentifierExpr ident) {
+        IdentifierExpr callee = ident;
         match(TokenType.ParenBegin);
         Expr[] args = parseArguments();
         match(TokenType.ParenEnd);
@@ -157,21 +219,31 @@ struct Parser(TokenRange) {
         return new CallExpr(loc, callee, args);
     }
 
-
+    
     auto parseStatements() {
+        Expr[] exprs;
+        /**
+         while (!isNext(TokenType.BraceEnd)) {
+         Expr e = parseExpression();
+         exprs ~= e;
+         }
+         return exprs;
+         **/
         // TODO: add other statements
-        return parseFunctionCall();
+        exprs ~= parseExpression();
+        return exprs;
     }
 
     Block parseBlock() {
         match(TokenType.BraceBegin);
         // parse block body
+        Expr[] exprs;
         if (!isNext(TokenType.BraceEnd)) {
-            parseStatements();
+            exprs = parseStatements();
         }
         match(TokenType.BraceEnd);
         Location loc;
-        return new Block(loc);
+        return new Block(loc, exprs);
     }
 
     MainBlock parseMain() {
@@ -209,12 +281,29 @@ unittest {
     testParse(q{
             import std.io;
             import std.net;
-    });
+        });
 
     // empty main block
     testParse("main{ }");
 
-
+    
     // main block with function call
     testParse(q{ main{println("hello")} });
+
+    // simple expressions
+    testParse(q{main { 1 + 1 }});
+    
+    // function definition
+    testParse(q{
+            /*
+             fun add(a int, b int) int {
+             return a + b
+             }
+
+             main {
+             import std.io;
+             println(add(a, b));
+             }
+             */
+        });
 }

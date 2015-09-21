@@ -34,8 +34,10 @@ class ImportDeclaration : Declaration {
 }
 
 class Block : Node {
-    this(Location loc) {
+    Expr[] exprs;
+    this(Location loc, Expr[] exprs) {
         super(loc);
+        this.exprs = exprs;
     }
 }
 
@@ -69,7 +71,8 @@ enum BinaryOp {
     Add,
     Sub,
     Mul,
-    Div
+    Div,
+    Unknown
 }
 
 class BinaryExpr : Expr {
@@ -107,3 +110,13 @@ class StringLiteralExpr: Expr {
         return "'" ~ value ~ "'";
     }
 }
+
+class IntExpr : Expr {
+    private Name name;
+    this(Location loc, Name name) {
+        super(loc);
+        this.name = name;
+    }
+}
+
+
