@@ -15,7 +15,7 @@ main {
   println("total lines: $n")
   
   // code in string
-  println("total lines: ${open("data.txt").count()}")
+  println("""total lines: ${open("data.txt").count()}""")
 }
 ```
 
