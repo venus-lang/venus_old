@@ -14,10 +14,8 @@ main {
   }
   println("total lines: $n")
   
-  // simple form
-  import std.fun: count
-  val cnt = open("data.txt").count()
-  println("total lines: $cnt")
+  // code in string
+  println("total lines: ${open("data.txt").count()}")
 }
 ```
 
@@ -25,8 +23,8 @@ The Venus Programming Language is a C family language that aims to be **fast**, 
 
 #### Fast
 
-- **Runs fast**. it is static typed, native language, backed with LLVM optimisations, focusing on zero overhead abstractions and has strong support for compile time meta programming. You can get a lot done even before the program runs. 
-- **Compiles fast**. The compiler supports both JIT and AOT modes, and with incremental builing, its compile time should be very fast. 
+- **Runs fast**. It is a native, static typed language, focusing on zero overhead abstractions and has strong support for compile time meta programming. You can get a lot done even before the program runs.
+- **Compiles fast**. The compiler supports both JIT and AOT modes. With two level incremental compilation, and a distributed database storing the compiled entities, you barely need to recompile a function twice.
 - **Concurrent and distributed**. Venus is concurrent from bottom up. The language and compiler itself is concurrent and distributed.
 
 #### Easy
