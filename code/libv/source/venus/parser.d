@@ -171,6 +171,7 @@ struct Parser(TokenRange) {
             import venus.exception;
             throw new CompileException(loc, "expected ')' for paren expr");
         }
+        match(TokenType.ParenEnd);
         return expr;
     }
 
@@ -198,16 +199,27 @@ struct Parser(TokenRange) {
 
     }
 
+    // TODO: move this to the definition of binop
+    bool isNextBinOp() {
+        return isNext(TokenType.Plus) 
+            || isNext(TokenType.Minus)
+                || isNext(TokenType.Star)
+                || isNext(TokenType.Slash);
+    }
+
+    
     Expr parseExpression() {
         auto lhs = parsePrimaryExpr();
-        if (isNext(TokenType.Plus) || isNext(TokenType.Minus)) {
+        if (isNextBinOp()) {
             return parseBinOp(lhs);
         }
         else return lhs;
     }
 
+    
     Expr parseBinOp(Expr lhs) {
         Token tok = tokens.front;
+        writeln("parsing binop:", tok.type);
         BinaryOp op;
         switch (tok.type) {
             case TokenType.Plus:
@@ -348,6 +360,7 @@ unittest {
 
     // simple expressions
     testParse(q{main { 1 + 1 }});
+    testParse(q{main { 1 + (2 * 3) }});
     
     // function definition
     testParse(q{

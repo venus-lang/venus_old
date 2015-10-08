@@ -11,7 +11,7 @@ alias isPunct = std.ascii.isPunctuation;
 struct Token {
     TokenType type;
     Name name;
-    Location loc; // TODO: track location when compiling
+    Location loc; // TODO: track location when lexing
 }
 
 enum TokenType {
