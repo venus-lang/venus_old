@@ -1,11 +1,27 @@
 ﻿module venus.ast;
 
 import venus.context;
+import std.conv: to;
 
 class Node {
     Location loc;
     this(Location loc) {
         this.loc = loc;
+    }
+
+    override string toString() {
+        import std.conv: to;
+        return "Node:" ~ loc.to!string;
+    }
+}
+
+class EmptyNode : Node {
+    this(Location loc) {
+        super(loc);
+    }
+
+    override string toString() {
+        return "EmptyNode:" ~ loc.to!string;
     }
 }
 
@@ -31,6 +47,10 @@ class ImportDeclaration : Declaration {
         super(loc);
         this.modules = modules;
     }
+
+    override string toString() {
+        return "Import" ~ loc.to!string;
+    }
 }
 
 class Block : Node {
@@ -44,9 +64,15 @@ class Block : Node {
 class MainBlock : Node {
     Block block;
 
+    string name = "main";
+
     this(Location loc, Block block) {
         super(loc);
         this.block = block;
+    }
+
+    override string toString() {
+        return "MainBlock" ~ loc.to!string;
     }
 }
 
@@ -142,6 +168,10 @@ class FunDef: Expr {
         this.args = args;
         this.type = type;
         this.bodyBlock = bodyBlock;
+    }
+
+    override string toString() {
+        return "FunDef" ~ loc.to!string;
     }
 }
 
