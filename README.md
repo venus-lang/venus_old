@@ -52,8 +52,7 @@ Venus is inspired by many languages:
 
 # Why a new language?
 
-My major purpose is to learn how to write a language. 
-I'm gonna write down my learning process as a book, as shown below.
+Because it's fun. Creating a new language and learn some of the best languages in the process is a must experience for every programmer. I'm gonna write down my learning process as a book.
 
 And hopefully when I finish the learning, I could come up with a prototype language that is as easy to use as Python, yet as efficient as C.
 
