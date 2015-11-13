@@ -11,11 +11,11 @@ alias isPunct = std.ascii.isPunctuation;
 struct Token {
     TokenType type;
     Name name;
-    Location loc; // TODO: track location when compiling
+    Location loc; // TODO: track location when lexing
 }
 
 enum TokenType {
-    Invalid = 0, Begin, End,
+    Invalid = 0, Begin, End, Fin,
     
     // Literals
     Identifier, StringLiteral, CharLiteral, IntLiteral, FloatLiteral,
@@ -73,8 +73,13 @@ public:
 
 struct Location {
     uint line = 1;
-    uint index = 1;
+    uint index = 0;
     uint length = 0;
+
+    string toString() {
+        import std.conv: to;
+        return "@" ~ line.to!string ~ ":" ~ index.to!string ~ "";
+    }
 }
 
 struct NameManager {
@@ -110,7 +115,9 @@ public:
         return "Token:\t" 
             ~ tok.name.to!string.rightJustify(6) ~ ","
                 ~ tok.type.to!string.rightJustify(14) ~ ",\t"
-                ~ tok.name.toString(this) ~ "";
+                ~ tok.name.toString(this) ~ ", \t"
+                ~ tok.loc.to!string
+                ;
     }
 
     string getTokenName(Token tok) {

@@ -16,14 +16,14 @@ unittest {
          * This is multiline comment and should be ignored by the compiler
          */
         import std.io;
-            
+        
         // extern function definition
         extern sin(d double) double;
 
         // short function definition
         fun add(a int, b int) int = a + b
-        
-        // full function definition
+            
+            // full function definition
         fun times(c double, d double) double {
             return c * d
         }
@@ -115,13 +115,21 @@ struct Lexer(R) {
     }
     
     @property bool empty() const {
-        return t.type == TokenType.End;
+        return t.type == TokenType.Fin;
     }
     
 private:
     auto getNextToken() {
         while (1) {
-            if (r.empty()) return lexEnd();
+            if (r.empty()) {
+                if (t.type == TokenType.End) {
+                    Token t;
+                    t.type = TokenType.Fin;
+                    return t;
+                } else {
+                    return lexEnd();
+                }
+            }
             dchar f = r.front;
             switch (f) {
                 case '\0':
@@ -173,6 +181,7 @@ private: // lex parts
     Token lexLineSep() {
         auto c = r.front;
         Token tok;
+        setLoc(tok);
         tok.type = TokenType.LineSep;
         string name;
         if (c == ';') {
@@ -202,11 +211,15 @@ private: // lex parts
     }   
     
 
+    void setLoc(ref Token tok) {
+        tok.loc.line = line;
+        tok.loc.index = index;
+    }
     
     Token lexNumeric() {
         Token tok;
         tok.type = TokenType.IntLiteral;
-        //tok.name = r.front;
+        setLoc(tok);
         string name;
         auto c = r.front;
         while (c.isDigit || c == '.') {
@@ -214,11 +227,13 @@ private: // lex parts
             c = nextChar();
         }
         tok.name = context.getName(name);
+
         return tok;
     }
     
     Token lexString() {
         Token tok;
+        setLoc(tok);
         string name;
         popChar(); // '"'
         auto c = r.front;
@@ -235,6 +250,7 @@ private: // lex parts
 
     Token lexChar() {
         Token tok;
+        setLoc(tok);
         popChar(); // '\''
         auto c = r.front;
         string name;
@@ -256,6 +272,7 @@ private: // lex parts
             assert(0, "Wrong identifier!");
         }
         Token tok;
+        setLoc(tok);
         string name;
         while (c.isIdChar) {
             name ~= c;
@@ -268,11 +285,13 @@ private: // lex parts
         } else {
             tok.type = TokenType.Identifier;
         }
+
         return tok;
     }
     
     Token lexEnd() {
         Token tok;
+        setLoc(tok);
         tok.type = TokenType.End;
         return tok;
     }
@@ -281,6 +300,8 @@ private: // lex parts
     // TODO: argument 'dchar f' here is unintuitive....
     Token lexOperator(dchar f) {
         Token tok;
+
+        setLoc(tok);
         string name;
         auto c = f;
         if (r.empty()) {

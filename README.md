@@ -14,10 +14,8 @@ main {
   }
   println("total lines: $n")
   
-  // simple form
-  import std.fun: count
-  val cnt = open("data.txt").count()
-  println("total lines: $cnt")
+  // code in string
+  println("""total lines: ${open("data.txt").count()}""")
 }
 ```
 
@@ -25,14 +23,14 @@ The Venus Programming Language is a C family language that aims to be **fast**, 
 
 #### Fast
 
-- **Runs fast**. it is static typed, native language, backed with LLVM optimisations, focusing on zero overhead abstractions and has strong support for compile time meta programming. You can get a lot done even before the program runs. 
-- **Compiles fast**. The compiler supports both JIT and AOT modes, and with incremental builing, its compile time should be very fast. 
-- **Concurrent and distributed**. Venus is concurrent from bottom up. The language and compiler itself is concurrent and distributed.
+- **Runs fast**. Venus runs **as fast as C**. It is a native, static typed language, focusing on zero overhead abstractions and has strong support for compile time meta programming. 
+- **Compiles fast**. The typical turnaround time should be **1 second or less**. The compiler supports both JIT and AOT modes. With two level incremental compilation, and a distributed database storing the compiled entities, you barely need to recompile a function twice. 
+- **Concurrent and distributed**. The language and compiler itself is concurrent and distributed.
 
 #### Easy
 
 - **Easy to learn**. Venus is a good first language. It is designed with teaching in mind, the syntax is simple and balanced. Although the syntax is more C flavor, you will find it as simple and elegant as python. Documentation is a key part of the language, so we have integrated docs.
-- **Easy to use**. Venus is interactive, it has a great shell repl that integrates with Bash. With `script` blocks, it has got every element you might need as a scripting language. Like python, the standard library should contain most common tools for your daily use with very good documentation.
+- **Easy to use**. Venus is interactive. it has a great shell repl that integrates with Bash. With `script` blocks, it has got every element you might need as a scripting language. Like python, the standard library should contain most common tools for your daily use with very good documentation.
 - **Easy to maintain**. Venus directly support unit testing and auto testing. Contract programming like in D is also planned. The code you wrote should be fairly easy to refactor. Venus comes with a builder that could automatically resolve dependencies and manage projects deployments.
 
 #### Extensible
@@ -54,8 +52,7 @@ Venus is inspired by many languages:
 
 # Why a new language?
 
-My major purpose is to learn how to write a language. 
-I'm gonna write down my learning process as a book, as shown below.
+Because it's fun. Creating a new language and learn some of the best languages in the process is a must experience for every programmer. I'm gonna write down my learning process as a book.
 
 And hopefully when I finish the learning, I could come up with a prototype language that is as easy to use as Python, yet as efficient as C.
 

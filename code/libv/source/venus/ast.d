@@ -1,11 +1,27 @@
 ﻿module venus.ast;
 
 import venus.context;
+import std.conv: to;
 
 class Node {
     Location loc;
     this(Location loc) {
         this.loc = loc;
+    }
+
+    override string toString() {
+        import std.conv: to;
+        return "Node:" ~ loc.to!string;
+    }
+}
+
+class EmptyNode : Node {
+    this(Location loc) {
+        super(loc);
+    }
+
+    override string toString() {
+        return "EmptyNode:" ~ loc.to!string;
     }
 }
 
@@ -31,20 +47,32 @@ class ImportDeclaration : Declaration {
         super(loc);
         this.modules = modules;
     }
+
+    override string toString() {
+        return "Import" ~ loc.to!string;
+    }
 }
 
 class Block : Node {
-    this(Location loc) {
+    Expr[] exprs;
+    this(Location loc, Expr[] exprs) {
         super(loc);
+        this.exprs = exprs;
     }
 }
 
 class MainBlock : Node {
     Block block;
 
+    string name = "main";
+
     this(Location loc, Block block) {
         super(loc);
         this.block = block;
+    }
+
+    override string toString() {
+        return "MainBlock" ~ loc.to!string;
     }
 }
 
@@ -69,7 +97,8 @@ enum BinaryOp {
     Add,
     Sub,
     Mul,
-    Div
+    Div,
+    Unknown
 }
 
 class BinaryExpr : Expr {
@@ -107,3 +136,60 @@ class StringLiteralExpr: Expr {
         return "'" ~ value ~ "'";
     }
 }
+
+class IntExpr : Expr {
+    private Name name;
+    this(Location loc, Name name) {
+        super(loc);
+        this.name = name;
+    }
+}
+
+class ArgExpr: Expr {
+    private IdentifierExpr name;
+    private Name type;
+
+    this(Location loc, IdentifierExpr name, Name type) {
+        super(loc);
+        this.name = name;
+        this.type = type;
+    }
+}
+
+class FunDef: Expr {
+    IdentifierExpr name;
+    Expr[] args;
+    TypeExpr type;
+    Block bodyBlock;
+
+    this(Location loc, IdentifierExpr name, Expr[] args, TypeExpr type, Block bodyBlock) {
+        super(loc);
+        this.name = name;
+        this.args = args;
+        this.type = type;
+        this.bodyBlock = bodyBlock;
+    }
+
+    override string toString() {
+        return "FunDef" ~ loc.to!string;
+    }
+}
+
+enum Type {
+    Int, 
+    Double,
+    Custom
+}
+
+// TODO: is Type an Expr?
+class TypeExpr : Expr {
+    Type type;
+    Token token;
+
+    this(Location loc, Type type, Token token) {
+        super(loc);
+        this.type = type;
+        this.token = token;
+    }
+}
+
