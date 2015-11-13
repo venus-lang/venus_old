@@ -146,7 +146,8 @@ private:
                     return lexString();
                 case '\'':
                     return lexChar();
-                case '+', '-', '*', '=', '.', '{', '}', '(', ')', ',', '<', '>', '!', '[', ']', ':': // TODO: use operator map here. What if D has pattern matching...
+                case '+', '-', '*', '=', '.', '{', '}', '(', ')', ',', '<', '>', '!', '[', ']', ':': 
+                    // TODO: use operator map here. What if D has pattern matching...
                     popChar();
                     return lexOperator(f);
                 default:
