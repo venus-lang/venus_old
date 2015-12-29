@@ -5,7 +5,8 @@ The Venus Programming Language is a C family language that aims to be **fast**, 
 ```d
 main {
   // Hello world
-  println("Hello Venus!")
+  val name = "Venus"
+  println("Hello $name!")
   
   // Read a file and count lines
   import std.io: open // local import
