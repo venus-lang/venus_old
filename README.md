@@ -16,10 +16,25 @@ main {
   
   // Start a HTTP server
   import std.net
-  http.Server {
+  http.server {
     get("/") {
       response.OK("Hello from HTTP Server")
     }
+  }
+  
+  // Call bash
+  import std.shell
+  bash {
+    grep -Hirn 'var' . | wc -l > var_lines.txt
+    cat var_lines
+  }
+  
+  // SQL query
+  import std.db.postgre
+  var db = connect('localhost'; db='student', user='user', pwd='pwd')
+  val girls = db.query { select id, name, age from students where gender = 'F' }
+  for (id, name, age) in girls {
+    println(id, name, age)
   }
 }
 ```
