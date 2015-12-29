@@ -1,5 +1,7 @@
 # The Venus Programming Language
 
+The Venus Programming Language is a C family language that aims to be **fast**, **easy** and **extensible**:
+
 ```d
 main {
   // Hello world
@@ -39,7 +41,6 @@ main {
 }
 ```
 
-The Venus Programming Language is a C family language that aims to be **fast**, **easy** and **extensible**:
 
 #### Fast
 
