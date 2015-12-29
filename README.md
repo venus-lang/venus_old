@@ -2,11 +2,11 @@
 
 ```d
 main {
-  // hello world
-  std.io.println("Hello Venus!")
+  // Hello world
+  println("Hello Venus!")
   
-  // read a file and count lines
-  import std.io: open
+  // Read a file and count lines
+  import std.io: open // local import
   var n = 0
   for line in open("data.txt") {
     println(line)
@@ -14,8 +14,13 @@ main {
   }
   println("total lines: $n")
   
-  // code in string
-  println("""total lines: ${open("data.txt").count()}""")
+  // Start a HTTP server
+  import std.net
+  http.Server {
+    get("/") {
+      response.OK("Hello from HTTP Server")
+    }
+  }
 }
 ```
 
