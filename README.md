@@ -29,7 +29,7 @@ main {
   import std.shell
   bash {
     grep -Hirn 'var' . | wc -l > var_lines.txt
-    cat var_lines
+    cat var_lines.txt
   }
   
   // SQL query
