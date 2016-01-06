@@ -8,14 +8,14 @@ import venus.ast;
 import venus.exception;
 
 struct Parser(TokenRange) {
-    Node n;
+    AstNode n;
     TokenRange tokens;
     Context ctx;
 
-    Node next() {
+    AstNode next() {
         Location loc = tokens.front.loc;
         if (tokens.empty()) {
-            return new Node(loc);
+            return new AstNode(loc);
         }
 
         Token front = tokens.front;
@@ -38,7 +38,7 @@ struct Parser(TokenRange) {
                     return parseMain();
                 default:
                     writeln("Unkown Token:", ctx.getTokenString(front));
-                    return new Node(front.loc);
+                    return new AstNode(front.loc);
             }
             front = nextTok();
         }
@@ -324,18 +324,18 @@ struct Parser(TokenRange) {
 }
 
 auto parse(TokenRange)(TokenRange tokens, Context ctx) if (isForwardRange!TokenRange) {
-    Node n;
+    AstNode n;
     auto p = Parser!TokenRange(n, tokens, ctx);
     return p;
 }
 
 unittest {
 
-    Node[] testParse(string code) {
+    AstNode[] testParse(string code) {
         writeln("> Testing parse for: ", code);
         Context ctx = new Context();
         auto parser = code.lex(ctx).parse(ctx);
-        Node[] nodes;
+        AstNode[] nodes;
         foreach (node; parser) {
             nodes ~= node;
         }

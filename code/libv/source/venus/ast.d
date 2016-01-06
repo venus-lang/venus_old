@@ -3,7 +3,7 @@
 import venus.context;
 import std.conv: to;
 
-class Node {
+class AstNode {
     Location loc;
     this(Location loc) {
         this.loc = loc;
@@ -15,7 +15,7 @@ class Node {
     }
 }
 
-class EmptyNode : Node {
+class EmptyNode : AstNode {
     this(Location loc) {
         super(loc);
     }
@@ -25,13 +25,13 @@ class EmptyNode : Node {
     }
 }
 
-class Declaration : Node {
+class Declaration : AstNode {
     this(Location loc) {
         super(loc);
     }
 }
 
-class Identifier : Node {
+class Identifier : AstNode {
     Name name;
 
     this(Location loc, Name name) {
@@ -53,7 +53,7 @@ class ImportDeclaration : Declaration {
     }
 }
 
-class Block : Node {
+class Block : AstNode {
     Expr[] exprs;
     this(Location loc, Expr[] exprs) {
         super(loc);
@@ -61,7 +61,7 @@ class Block : Node {
     }
 }
 
-class MainBlock : Node {
+class MainBlock : AstNode {
     Block block;
 
     string name = "main";
@@ -87,7 +87,7 @@ class CallExpr : Expr {
     }
 }
 
-class Expr: Node {
+class Expr: AstNode {
     this(Location loc) {
         super(loc);
     }
