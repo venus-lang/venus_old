@@ -19,4 +19,6 @@ void main()
         writeln(tok);
     }
     writeln("lexer done");
+
+
 }

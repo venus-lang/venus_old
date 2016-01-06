@@ -40,7 +40,7 @@ unittest {
 
         // extention function
         fun string.reverse() string {
-            string.create(self.data.reverse)
+            string(self.data.reverse)
         }
 
         // script block
