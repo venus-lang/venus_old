@@ -19,7 +19,7 @@ Any type that has a member `run` whose signature is the same with `Runnable` is 
 So with a function:
 
 ```d
-fun start(Runnable o) {
+fun start(o Runnable) {
    // ...
    o.run();
    // ...
