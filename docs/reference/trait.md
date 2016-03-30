@@ -55,7 +55,7 @@ This is very convenient but somehow verbose and hinders readability.
 Venus use traits to achieve the same feature, but more succinct:
 
 ```d
-trait SRange = constraint(R) { isInputRange!R && is(ElementType!R == string }
+trait SRange = constraint [R] { R.isInputRange() and (R.elementType() eq string) }
 ```
 
 Now you can use SRange just like a normal type:
