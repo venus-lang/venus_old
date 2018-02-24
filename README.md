@@ -26,7 +26,7 @@ main {
   
   // Start a HTTP server
   import std.net
-  http.server {
+  http.server(port=8080) {
     get("/") {
       OK("Hello from HTTP Server")
     }
