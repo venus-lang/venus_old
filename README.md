@@ -1,43 +1,59 @@
 # The Venus Programming Language
 
-The Venus Programming Language is a C family language that aims to be **fast**, **easy** and **extensible**:
+The Venus Programming Language is a C family language that aims to be **easy**, **fast**, and **extensible**:
+
 
 ```d
+// Program entry point
 main {
   // Hello world
+  import std.io: print // local import
   val name = "Venus"
-  println("Hello $name!")
-  
-  // Read a file and count lines
-  import std.io: open // local import
-  var n = 0
-  for line in open("data.txt") {
-    println(line)
+  print("Hello $name!")
+
+  // Read a file and count lines: python style
+  import std.io: open
+  var n = 0 // type inference
+  for line in open("data.log") {
+    print(line)
     n = n + 1
   }
-  println("total lines: $n")
+  print("total lines: $n")
+  
+  // Read a file and count lines: script style
+  import std.script // std.script imports commonly used packages such as std.io, std.math, etc.
+  open("data.log").count.print // functions used like methods
   
   // Start a HTTP server
   import std.net
   http.server {
     get("/") {
-      response.OK("Hello from HTTP Server")
+      OK("Hello from HTTP Server")
     }
   }
   
   // Call bash
-  import std.shell
-  bash {
+  import std.shell.bash
+  val text = bash {
     grep -Hirn 'var' . | wc -l > var_lines.txt
-    cat var_lines.txt
+    cat var_lines.txt // output of last command is returned
   }
+  print(text)
   
   // SQL query
   import std.db.postgre
   var db = connect('localhost'; db='student', user='user', pwd='pwd')
-  val girls = db.query { select id, name, age from students where gender = 'F' }
-  for (id, name, age) in girls {
-    println(id, name, age)
+  // typesafe SQL query
+  struct car {
+    id ulong,
+    model string,
+    seats uint,
+    age uint,
+    type enum('suv', 'sedan', 'truck', ...)
+  }
+  val sedans = db.query { select car from cars where type = 'suv' }
+  for s in sedans {
+    print(s.id, s.model, s.seats)
   }
 }
 ```
